@@ -3,6 +3,7 @@ import { getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import ExperimentCard from '../../components/ExperimentCard.astro';
+import { collectionPageJsonLd } from '../../lib/structured-data';
 
 export async function getStaticPaths() {
   const personas = await getCollection('personas');
@@ -29,9 +30,17 @@ const clusters = await Promise.all(
   persona.data.recommended_clusters.map((id: string) => getEntry('clusters', id))
 );
 const resolvedClusters = clusters.filter(Boolean);
+
+const siteUrl = import.meta.env.SITE || 'https://hax.example.com';
+const structuredData = collectionPageJsonLd(
+  persona.data.persona_name,
+  `${siteUrl}/personas/${persona.data.id}/`,
+  resolvedExperiments.map(e => ({ title: e.data.title, collection: 'experiments', slug: e.id })),
+  siteUrl
+);
 ---
 
-<BaseLayout title={persona.data.persona_name} description={`Curated experiments for the "${persona.data.persona_name}" persona.`}>
+<BaseLayout title={persona.data.persona_name} description={`Curated experiments for the "${persona.data.persona_name}" persona.`} structuredData={structuredData}>
   <div class="container">
     <Breadcrumb items={breadcrumbs} />
     <div class="persona-page">

@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import StudyLink from '../components/StudyLink.astro';
+import { webPageJsonLd } from '../lib/structured-data';
 
 const resources = await getCollection('resources');
 const studies = await getCollection('studies');
@@ -26,6 +27,13 @@ const typeLabels: Record<string, string> = {
   study: 'Studies',
 };
 
+const siteUrl = import.meta.env.SITE || 'https://hax.example.com';
+const structuredData = webPageJsonLd(
+  'Resources',
+  'Curated resources, study links, and TED playlists for further exploration.',
+  `${siteUrl}/resources/`
+);
+
 const typeOrder = ['playlist', 'guide', 'glossary', 'study'];
 const sortedTypes = typeOrder.filter(t => grouped[t]);
 // Add any types not in the predefined order
@@ -34,7 +42,7 @@ for (const t of Object.keys(grouped)) {
 }
 ---
 
-<BaseLayout title="Resources" description="Curated resources, study links, and TED playlists for further exploration.">
+<BaseLayout title="Resources" description="Curated resources, study links, and TED playlists for further exploration." structuredData={structuredData}>
   <div class="container">
     <Breadcrumb items={breadcrumbs} />
     <article class="prose">

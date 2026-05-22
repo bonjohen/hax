@@ -1,14 +1,22 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
+import { webPageJsonLd } from '../lib/structured-data';
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about/' },
 ];
+
+const siteUrl = import.meta.env.SITE || 'https://hax.example.com';
+const structuredData = webPageJsonLd(
+  'About HAx',
+  'How HAx evaluates evidence and curates experiments from TED Talks.',
+  `${siteUrl}/about/`
+);
 ---
 
-<BaseLayout title="About" description="How HAx evaluates evidence and curates experiments from TED Talks.">
+<BaseLayout title="About" description="How HAx evaluates evidence and curates experiments from TED Talks." structuredData={structuredData}>
   <div class="container">
     <Breadcrumb items={breadcrumbs} />
     <article class="prose">

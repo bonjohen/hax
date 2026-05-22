@@ -6,6 +6,7 @@ import ExperimentCard from '../../components/ExperimentCard.astro';
 import TalkCard from '../../components/TalkCard.astro';
 import FilterPanel from '../../components/FilterPanel.astro';
 import FilterController from '../../islands/FilterController';
+import { clusterJsonLd } from '../../lib/structured-data';
 
 export async function getStaticPaths() {
   const clusters = await getCollection('clusters');
@@ -57,11 +58,22 @@ const breadcrumbs = [
   { label: 'Clusters', href: '/clusters/' },
   { label: cluster.data.name, href: `/clusters/${cluster.data.id}/` },
 ];
+
+const siteUrl = import.meta.env.SITE || 'https://hax.example.com';
+const structuredData = clusterJsonLd(
+  cluster.data,
+  [
+    ...clusterExperiments.map(e => ({ title: e.data.title, collection: 'experiments', slug: e.id })),
+    ...clusterTalks.map(t => ({ title: t.data.title, collection: 'talks', slug: t.id })),
+  ],
+  siteUrl
+);
 ---
 
 <BaseLayout
   title={`${cluster.data.name} — Cluster`}
   description={`Explore evidence-backed experiments and TED Talks in the ${cluster.data.name} cluster.`}
+  structuredData={structuredData}
 >
   <div class="container">
     <Breadcrumb items={breadcrumbs} />

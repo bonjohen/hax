@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ExperimentCard from '../components/ExperimentCard.astro';
+import { websiteJsonLd } from '../lib/structured-data';
 
 const experiments = await getCollection('experiments');
 const talks = await getCollection('talks');
@@ -26,11 +27,15 @@ const clusterIcons: Record<string, string> = {
 const featured = experiments
   .filter(e => e.data.evidence_level === 'high' || e.data.evidence_level === 'moderate')
   .slice(0, 3);
+
+const siteUrl = import.meta.env.SITE || 'https://hax.example.com';
+const structuredData = websiteJsonLd(siteUrl);
 ---
 
 <BaseLayout
   title="Home"
   description="Discover actionable, evidence-rated experiments drawn from TED Talks."
+  structuredData={structuredData}
 >
   <!-- Hero -->
   <section class="hero">

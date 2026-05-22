@@ -14,6 +14,8 @@ interface Props {
 
 const { title, description, canonicalUrl, ogImage, structuredData, noIndex } = Astro.props;
 const pageTitle = title ? `${title} | HAx` : 'HAx — Human Advantage Experiments';
+const siteUrl = import.meta.env.SITE || 'https://hax.example.com';
+const resolvedCanonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
 ---
 
 <!DOCTYPE html>
@@ -27,11 +29,13 @@ const pageTitle = title ? `${title} | HAx` : 'HAx — Human Advantage Experiment
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   {noIndex && <meta name="robots" content="noindex, nofollow" />}
-  {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+  <link rel="canonical" href={resolvedCanonical} />
 
   <!-- Open Graph -->
   <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={description} />
+  <meta property="og:url" content={resolvedCanonical} />
+  <meta property="og:type" content="website" />
   {ogImage && <meta property="og:image" content={ogImage} />}
 
   <!-- Twitter Card -->
@@ -44,6 +48,14 @@ const pageTitle = title ? `${title} | HAx` : 'HAx — Human Advantage Experiment
   )}
 
   <link rel="stylesheet" href="/styles/print.css" media="print" />
+
+  {import.meta.env.PLAUSIBLE_DOMAIN && (
+    <script
+      defer
+      data-domain={import.meta.env.PLAUSIBLE_DOMAIN}
+      src={import.meta.env.PLAUSIBLE_SCRIPT_URL || 'https://plausible.io/js/script.js'}
+    />
+  )}
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
