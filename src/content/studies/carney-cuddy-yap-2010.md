@@ -4,7 +4,7 @@ title: "Power Posing: Brief Nonverbal Displays Affect Neuroendocrine Levels and 
 authors: "Dana R. Carney, Amy J.C. Cuddy, Andy J. Yap"
 year: 2010
 source_type: "journal article"
-doi_or_url: "https://doi.org/10.1111/j.1467-9280.2010.02407.x"
+doi_or_url: "https://doi.org/10.1177/0956797610383437"
 relevance_note: "Original power-posing study. Found that expansive postures increased testosterone and decreased cortisol. Subsequent replication attempts have yielded mixed results."
 evidence_tier: "mixed_contested"
 ---

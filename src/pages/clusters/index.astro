@@ -1,0 +1,135 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+const clusters = await getCollection('clusters');
+const experiments = await getCollection('experiments');
+const talks = await getCollection('talks');
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Clusters', href: '/clusters/' },
+];
+
+const clusterColors: Record<string, string> = {
+  body: 'var(--color-cluster-body)',
+  cognition: 'var(--color-cluster-cognition)',
+  environment: 'var(--color-cluster-environment)',
+  social: 'var(--color-cluster-social)',
+};
+
+function countForCluster(id: string) {
+  const expCount = experiments.filter(e => e.data.clusters.includes(id)).length;
+  const talkCount = talks.filter(t => t.data.clusters.includes(id)).length;
+  return { expCount, talkCount };
+}
+---
+
+<BaseLayout title="Clusters" description="Explore HAx experiments organized by four topic clusters.">
+  <div class="container">
+    <Breadcrumb items={breadcrumbs} />
+    <div class="page-header">
+      <h1>Clusters</h1>
+      <p class="lead">HAx experiments are organized into four clusters based on the domain of human performance they address.</p>
+    </div>
+    <div class="cluster-grid">
+      {clusters.map((c) => {
+        const { expCount, talkCount } = countForCluster(c.data.id);
+        return (
+          <a href={`/clusters/${c.data.id}/`} class="cluster-card" style={`--cluster-color: ${clusterColors[c.data.id] || 'var(--color-link)'}`}>
+            <div class="cluster-accent" aria-hidden="true"></div>
+            <div class="cluster-body">
+              <h2>{c.data.name}</h2>
+              <p class="cluster-desc">{c.data.hero_experiments.length} featured experiments</p>
+              <div class="cluster-stats">
+                <span>{expCount} experiments</span>
+                <span>{talkCount} talks</span>
+              </div>
+            </div>
+            <span class="cluster-arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-top: var(--space-8);
+    margin-bottom: var(--space-8);
+  }
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: var(--content-width);
+    line-height: var(--leading-relaxed);
+  }
+  .cluster-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+  .cluster-card {
+    display: flex;
+    align-items: stretch;
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--color-text);
+    overflow: hidden;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-card);
+  }
+  .cluster-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+    border-color: var(--cluster-color);
+    color: var(--color-text);
+  }
+  .cluster-accent {
+    width: 6px;
+    flex-shrink: 0;
+    background: var(--cluster-color);
+  }
+  .cluster-body {
+    flex: 1;
+    padding: var(--space-6);
+  }
+  .cluster-body h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    margin: 0 0 var(--space-2);
+  }
+  .cluster-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-3);
+  }
+  .cluster-stats {
+    display: flex;
+    gap: var(--space-4);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-weight: var(--weight-medium);
+  }
+  .cluster-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-5);
+    font-size: var(--text-xl);
+    color: var(--color-text-muted);
+    transition: transform var(--transition-fast);
+  }
+  .cluster-card:hover .cluster-arrow {
+    transform: translateX(4px);
+    color: var(--cluster-color);
+  }
+  @media (min-width: 640px) {
+    .cluster-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

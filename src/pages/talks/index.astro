@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import TalkCard from '../../components/TalkCard.astro';
+
+const talks = await getCollection('talks');
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Talks', href: '/talks/' },
+];
+---
+
+<BaseLayout title="All Talks" description="Browse all evidence-rated TED Talks on HAx.">
+  <div class="container">
+    <Breadcrumb items={breadcrumbs} />
+    <h1>All Talks</h1>
+    <p class="lead">{talks.length} TED Talks, each rated for evidence quality.</p>
+    <div class="card-grid">
+      {talks.map((talk) => (
+        <TalkCard
+          slug={talk.id}
+          title={talk.data.title}
+          speaker={talk.data.speaker}
+          thumbnail={talk.data.thumbnail}
+          evidenceLevel={talk.data.evidence_level}
+          clusters={talk.data.clusters}
+          behaviors={talk.data.behaviors}
+          goals={talk.data.goals}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  h1 { margin-top: var(--space-8); }
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+  @media (min-width: 640px) { .card-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .card-grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

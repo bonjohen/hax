@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Saved', href: '/saved/' },
+];
+---
+
+<BaseLayout title="Saved Experiments" description="Your saved experiments, stored locally in your browser.">
+  <div class="container">
+    <Breadcrumb items={breadcrumbs} />
+    <div class="saved-page">
+      <h1>Saved Experiments</h1>
+      <p class="saved-hint">Save and manage experiments will be available in an upcoming release. For now, browse experiments by <a href="/clusters/body/">cluster</a>.</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .saved-page {
+    max-width: var(--content-width);
+    padding: var(--space-12) 0;
+    text-align: center;
+    margin: 0 auto;
+  }
+  .saved-page h1 {
+    margin-bottom: var(--space-4);
+  }
+  .saved-hint {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+</style>

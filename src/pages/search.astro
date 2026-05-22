@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Search', href: '/search/' },
+];
+---
+
+<BaseLayout title="Search" description="Search experiments and talks on HAx.">
+  <div class="container">
+    <Breadcrumb items={breadcrumbs} />
+    <div class="search-page">
+      <h1>Search</h1>
+      <p class="search-hint">Full-text search will be available in an upcoming release. For now, browse by <a href="/clusters/body/">cluster</a> or <a href="/personas/knowledge-worker/">persona</a>.</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .search-page {
+    max-width: var(--content-width);
+    padding: var(--space-12) 0;
+    text-align: center;
+    margin: 0 auto;
+  }
+  .search-page h1 {
+    margin-bottom: var(--space-4);
+  }
+  .search-hint {
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+</style>

@@ -27,7 +27,7 @@ status: "open"
 | 01.11 | Completed | 2026-05-22 10:20 PM | 2026-05-22 10:21 PM | Add Playwright and Lighthouse CI steps to GitHub Actions CI pipeline |
 | 01.12 | Completed | 2026-05-22 10:21 PM | 2026-05-22 10:22 PM | Verify: skip link is first focusable element, moves focus to `<main>`; breadcrumb renders "Home"; Lighthouse accessibility ≥ 90; print preview hides nav/footer |
 | 01.13 | Completed | 2026-05-22 10:22 PM | 2026-05-22 10:22 PM | Remove test-embed page from Phase 00 (no longer needed after TED validation) |
-| 01.14 | Started | 2026-05-22 10:22 PM | | Stage all changes and commit: "Phase 01: Base layout with responsive navigation, skip links, and accessibility CI" |
+| 01.14 | Completed | 2026-05-22 10:22 PM | 2026-05-22 10:23 PM | Stage all changes and commit: "Phase 01: Base layout with responsive navigation, skip links, and accessibility CI" |
 
 ## Context
 

@@ -27,7 +27,7 @@ status: "open"
 | 02.11 | Completed | 2026-05-22 10:24 PM | 2026-05-22 10:25 PM | Extend `tests/e2e/navigation.spec.ts` — Playwright test: navigate to an experiment detail page, verify title, claim, instructions, evidence badge, source talks are present |
 | 02.12 | Completed | 2026-05-22 10:25 PM | 2026-05-22 10:26 PM | Extend `tests/e2e/accessibility.spec.ts` to scan talk detail and experiment detail pages |
 | 02.13 | Completed | 2026-05-22 10:26 PM | 2026-05-22 10:27 PM | Verify: every talk page has all required elements per US-003 acceptance criteria; every experiment page has all required elements per US-004; JSON-LD validates |
-| 02.14 | Started | 2026-05-22 10:27 PM | | Stage all changes and commit: "Phase 02: Talk and experiment detail pages with evidence badges, TED embeds, and structured data" |
+| 02.14 | Completed | 2026-05-22 10:27 PM | 2026-05-22 10:28 PM | Stage all changes and commit: "Phase 02: Talk and experiment detail pages with evidence badges, TED embeds, and structured data" |
 
 ## Context
 

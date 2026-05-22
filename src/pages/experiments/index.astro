@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import ExperimentCard from '../../components/ExperimentCard.astro';
+
+const experiments = await getCollection('experiments');
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Experiments', href: '/experiments/' },
+];
+---
+
+<BaseLayout title="All Experiments" description="Browse all evidence-rated experiments on HAx.">
+  <div class="container">
+    <Breadcrumb items={breadcrumbs} />
+    <h1>All Experiments</h1>
+    <p class="lead">{experiments.length} experiments, each with step-by-step instructions and evidence ratings.</p>
+    <div class="card-grid">
+      {experiments.map((exp) => (
+        <ExperimentCard
+          slug={exp.id}
+          title={exp.data.title}
+          oneLineClaim={exp.data.one_line_claim}
+          evidenceLevel={exp.data.evidence_level}
+          timeCostMinutes={exp.data.time_cost_minutes}
+          effort={exp.data.effort}
+          clusters={exp.data.clusters}
+          behaviors={exp.data.behaviors}
+          goals={exp.data.goals}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  h1 { margin-top: var(--space-8); }
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+    line-height: var(--leading-relaxed);
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+  @media (min-width: 640px) { .card-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .card-grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

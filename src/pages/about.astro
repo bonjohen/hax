@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about/' },
+];
+---
+
+<BaseLayout title="About" description="How HAx evaluates evidence and curates experiments from TED Talks.">
+  <div class="container">
+    <Breadcrumb items={breadcrumbs} />
+    <article class="prose">
+      <h1>About HAx</h1>
+      <p class="lead">HAx curates actionable experiments drawn from TED Talks and rates them against published research. Our goal is to bridge the gap between inspiring ideas and evidence-backed practice.</p>
+
+      <h2>Evidence Rubric</h2>
+      <p>Every experiment and talk on HAx receives an evidence rating based on the quality and quantity of supporting research.</p>
+      <table class="evidence-table">
+        <thead>
+          <tr><th>Level</th><th>Meaning</th><th>What to expect</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>High</strong></td><td>Multiple high-quality studies (RCTs, meta-analyses)</td><td>Strong confidence in the claimed effect</td></tr>
+          <tr><td><strong>Moderate</strong></td><td>Credible research with some limitations</td><td>Good support, worth trying</td></tr>
+          <tr><td><strong>Preliminary</strong></td><td>Early-stage or small-sample research</td><td>Promising but unconfirmed</td></tr>
+          <tr><td><strong>Mixed / Contested</strong></td><td>Conflicting results or active scientific debate</td><td>Interesting but interpret with caution</td></tr>
+          <tr><td><strong>Narrative / Conceptual</strong></td><td>Expert reasoning, not empirical study</td><td>Thought-provoking, not empirically tested</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Editorial Posture</h2>
+      <p>HAx does not endorse any single experiment as a guaranteed solution. We present the evidence as it stands, including contradictory findings and methodological limitations. Our role is curation and translation, not advocacy.</p>
+
+      <h2>Citation Policy</h2>
+      <p>Every evidence rating links to the studies that informed it. Where possible, we link to open-access versions or DOIs. We update ratings as new research is published.</p>
+
+      <h2>Legal</h2>
+      <p>HAx is not affiliated with TED or TED Conferences, LLC. TED Talk content (videos, transcripts) remains the property of TED. Embedded videos are displayed via TED's official embed mechanism. This site is a non-commercial educational resource.</p>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .prose {
+    max-width: var(--content-width);
+    padding: var(--space-8) 0;
+  }
+  .prose h2 {
+    margin-top: var(--space-10);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-border-light);
+  }
+  .prose p {
+    line-height: var(--leading-relaxed);
+  }
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-8);
+  }
+  .evidence-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--space-4) 0 var(--space-8);
+    font-size: var(--text-sm);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+  .evidence-table th,
+  .evidence-table td {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .evidence-table th {
+    font-weight: var(--weight-semibold);
+    background: var(--color-dark);
+    color: var(--color-text-inverse);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+  }
+  .evidence-table tr:nth-child(even) td {
+    background: var(--color-surface);
+  }
+  .evidence-table tr:hover td {
+    background: color-mix(in srgb, var(--color-link) 5%, var(--color-bg));
+  }
+</style>
