@@ -59,25 +59,24 @@ Open  ──>  Started  ──>  Completed
 
 | No | Status | Started (PST) | Completed (PST) | Description |
 |----|--------|---------------|------------------|-------------|
-| 00.01 | Open | | | Initialize Astro project with TypeScript: `npm create astro@latest`, configure `output: 'static'` in `astro.config.mjs` |
-| 00.02 | Open | | | Create `src/lib/taxonomy.ts` with cluster IDs, evidence level enum, effort enum as shared constants |
-| 00.03 | Open | | | Create `src/content/config.ts` with Zod schemas for all six collections (talks, experiments, studies, clusters, personas, resources) per PDR Section 2.1 |
-| 00.04 | Open | | | Create sample content files: 2 talks, 3 experiments, 2 studies, 1 cluster, 1 persona, 1 resource — all with complete frontmatter and body content |
-| 00.05 | Open | | | Configure Astro i18n in `astro.config.mjs` with default locale `en` and prefix routing strategy |
-| 00.06 | Open | | | Create a minimal test page at `src/pages/test-embed.astro` that renders a TED iframe embed and fallback link |
-| 00.07 | Open | | | Set up Cloudflare Pages deployment from the repository (connect repo, configure build command `npm run build`, output directory `dist/`) |
-| 00.08 | Open | | | Deploy the test page and verify TED embed loads from the live Cloudflare Pages preview URL |
-| 00.09 | Open | | | Set up CI pipeline (GitHub Actions): install deps, type-check (`astro check`), build (`astro build`), verify build succeeds |
-| 00.10 | Open | | | Verify schema validation: create an intentionally invalid content file, confirm build fails with a clear error, then remove the invalid file |
-| 00.11 | Open | | | Create `package.json` scripts: `dev`, `build`, `preview`, `check`, `test` |
-| 00.12 | Open | | | Stage all changes and commit: "Phase 00: Project scaffold with content schemas, TED embed validation, and CI pipeline" |
+| 00.01 | Completed | 2026-05-22 09:56 PM | 2026-05-22 10:00 PM | Initialize Astro project with TypeScript: `npm create astro@latest`, configure `output: 'static'` in `astro.config.mjs` |
+| 00.02 | Completed | 2026-05-22 10:00 PM | 2026-05-22 10:01 PM | Create `src/lib/taxonomy.ts` with cluster IDs, evidence level enum, effort enum as shared constants |
+| 00.03 | Completed | 2026-05-22 10:01 PM | 2026-05-22 10:02 PM | Create `src/content/config.ts` with Zod schemas for all six collections (talks, experiments, studies, clusters, personas, resources) per PDR Section 2.1 |
+| 00.04 | Completed | 2026-05-22 10:02 PM | 2026-05-22 10:06 PM | Create sample content files: 2 talks, 3 experiments, 2 studies, 1 cluster, 1 persona, 1 resource — all with complete frontmatter and body content |
+| 00.05 | Completed | 2026-05-22 10:06 PM | 2026-05-22 10:06 PM | Configure Astro i18n in `astro.config.mjs` with default locale `en` and prefix routing strategy |
+| 00.06 | Completed | 2026-05-22 10:06 PM | 2026-05-22 10:07 PM | Create a minimal test page at `src/pages/test-embed.astro` that renders a TED iframe embed and fallback link |
+| 00.07 | Blocked | 2026-05-22 10:07 PM | | Set up Cloudflare Pages deployment from the repository (connect repo, configure build command `npm run build`, output directory `dist/`) [BLOCKED: Requires manual Cloudflare Pages dashboard setup — connect GitHub repo, configure build settings] |
+| 00.08 | Blocked | 2026-05-22 10:07 PM | | Deploy the test page and verify TED embed loads from the live Cloudflare Pages preview URL [BLOCKED: Depends on 00.07 Cloudflare Pages setup] |
+| 00.09 | Completed | 2026-05-22 10:07 PM | 2026-05-22 10:07 PM | Set up CI pipeline (GitHub Actions): install deps, type-check (`astro check`), build (`astro build`), verify build succeeds |
+| 00.10 | Completed | 2026-05-22 10:07 PM | 2026-05-22 10:08 PM | Verify schema validation: create an intentionally invalid content file, confirm build fails with a clear error, then remove the invalid file |
+| 00.11 | Completed | 2026-05-22 10:07 PM | 2026-05-22 10:07 PM | Create `package.json` scripts: `dev`, `build`, `preview`, `check`, `test` |
+| 00.12 | Started | 2026-05-22 10:08 PM | | Stage all changes and commit: "Phase 00: Project scaffold with content schemas, TED embed validation, and CI pipeline" |
 
 ### Phase 00 Summary
 
-_To be filled after completion._
-
-- **Changes:** TBD
-- **Commit:** TBD
+- **Changes:** Initialized Astro 6.x project with TypeScript strict mode and static output. Created content collection schemas for all six collections using glob loaders. Created taxonomy constants, 10 sample content files, TED embed test page, GitHub Actions CI, and package.json scripts.
+- **Blocked tasks:** 00.07 (Cloudflare Pages setup), 00.08 (TED embed live verification)
+- **Commit:** `Phase 00: Project scaffold with content schemas, TED embed validation, and CI pipeline`
 
 ---
 
