@@ -4,6 +4,7 @@ import ContentLayout from '../../layouts/ContentLayout.astro';
 import EvidenceBadge from '../../components/EvidenceBadge.astro';
 import TedEmbed from '../../components/TedEmbed.astro';
 import StudyLink from '../../components/StudyLink.astro';
+import ShareButton from '../../islands/ShareButton';
 import { talkJsonLd } from '../../lib/structured-data';
 
 export async function getStaticPaths() {
@@ -46,6 +47,9 @@ const breadcrumbs = [
     <h1>{talk.data.title}</h1>
     <p class="talk-speaker">by {talk.data.speaker}</p>
     <EvidenceBadge level={talk.data.evidence_level} />
+    <div class="talk-actions">
+      <ShareButton client:idle />
+    </div>
   </header>
 
   <TedEmbed
@@ -119,6 +123,37 @@ const breadcrumbs = [
     font-size: var(--text-lg);
     color: var(--color-text-muted);
     margin-bottom: var(--space-3);
+  }
+
+  .talk-actions {
+    margin-top: var(--space-4);
+  }
+
+  .talk-actions :global(.share-btn) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-family: var(--font-sans);
+  }
+
+  .talk-actions :global(.share-btn:hover) {
+    background: var(--color-surface-raised);
+    color: var(--color-text);
+    border-color: var(--color-border);
+  }
+
+  .talk-actions :global(.share-btn--copied) {
+    color: var(--color-evidence-high);
+    border-color: var(--color-evidence-high);
   }
 
   .transcript-link {

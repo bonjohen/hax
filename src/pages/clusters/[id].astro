@@ -5,6 +5,7 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 import ExperimentCard from '../../components/ExperimentCard.astro';
 import TalkCard from '../../components/TalkCard.astro';
 import FilterPanel from '../../components/FilterPanel.astro';
+import FilterController from '../../islands/FilterController';
 
 export async function getStaticPaths() {
   const clusters = await getCollection('clusters');
@@ -156,6 +157,7 @@ const breadcrumbs = [
         />
       </aside>
     </div>
+    <FilterController client:idle />
   </div>
 </BaseLayout>
 

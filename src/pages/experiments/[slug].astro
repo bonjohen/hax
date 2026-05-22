@@ -3,6 +3,9 @@ import { getCollection, getEntry, render } from 'astro:content';
 import ContentLayout from '../../layouts/ContentLayout.astro';
 import EvidenceBadge from '../../components/EvidenceBadge.astro';
 import StudyLink from '../../components/StudyLink.astro';
+import PrintButton from '../../components/PrintButton.astro';
+import SaveButton from '../../islands/SaveButton';
+import ShareButton from '../../islands/ShareButton';
 import { experimentJsonLd } from '../../lib/structured-data';
 import { EFFORT_LABELS } from '../../lib/taxonomy';
 
@@ -49,6 +52,11 @@ const breadcrumbs = [
       <EvidenceBadge level={experiment.data.evidence_level} />
       <span class="meta-item">{experiment.data.time_cost_minutes} min</span>
       <span class="meta-item">{EFFORT_LABELS[experiment.data.effort]} effort</span>
+    </div>
+    <div class="experiment-actions">
+      <SaveButton client:idle experimentId={experiment.id} title={experiment.data.title} />
+      <ShareButton client:idle />
+      <PrintButton />
     </div>
   </header>
 
@@ -132,6 +140,47 @@ const breadcrumbs = [
     align-items: center;
     gap: var(--space-3);
     flex-wrap: wrap;
+  }
+
+  .experiment-actions {
+    display: flex;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .experiment-actions :global(.save-btn),
+  .experiment-actions :global(.share-btn) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-family: var(--font-sans);
+  }
+
+  .experiment-actions :global(.save-btn:hover),
+  .experiment-actions :global(.share-btn:hover) {
+    background: var(--color-surface-raised);
+    color: var(--color-text);
+    border-color: var(--color-border);
+  }
+
+  .experiment-actions :global(.save-btn--saved) {
+    color: var(--color-link);
+    border-color: var(--color-link);
+  }
+
+  .experiment-actions :global(.share-btn--copied) {
+    color: var(--color-evidence-high);
+    border-color: var(--color-evidence-high);
   }
 
   .meta-item {

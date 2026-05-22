@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
+import SaveManager from '../islands/SaveManager';
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
@@ -13,24 +14,117 @@ const breadcrumbs = [
     <Breadcrumb items={breadcrumbs} />
     <div class="saved-page">
       <h1>Saved Experiments</h1>
-      <p class="saved-hint">Save and manage experiments will be available in an upcoming release. For now, browse experiments by <a href="/clusters/body/">cluster</a>.</p>
+      <SaveManager client:idle />
+      <noscript>
+        <p class="noscript-msg">Saving experiments requires JavaScript. Browse <a href="/experiments/">all experiments</a> instead.</p>
+      </noscript>
     </div>
   </div>
 </BaseLayout>
 
 <style>
+  h1 { margin-top: var(--space-8); margin-bottom: var(--space-6); }
   .saved-page {
     max-width: var(--content-width);
-    padding: var(--space-12) 0;
-    text-align: center;
-    margin: 0 auto;
+    padding-bottom: var(--space-16);
   }
-  .saved-page h1 {
-    margin-bottom: var(--space-4);
-  }
-  .saved-hint {
+  .noscript-msg {
     color: var(--color-text-muted);
     font-size: var(--text-lg);
-    line-height: var(--leading-relaxed);
+    margin-top: var(--space-6);
+  }
+
+  /* SaveManager styles */
+  .saved-page :global(.save-manager--empty) {
+    text-align: center;
+    padding: var(--space-12) 0;
+  }
+  .saved-page :global(.empty-state) {
+    color: var(--color-text-muted);
+  }
+  .saved-page :global(.empty-state svg) {
+    margin: 0 auto var(--space-4);
+  }
+  .saved-page :global(.empty-state h2) {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-2);
+    color: var(--color-text);
+  }
+  .saved-page :global(.browse-link) {
+    display: inline-block;
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-6);
+    background: var(--gradient-accent);
+    color: var(--color-text-inverse);
+    border-radius: var(--radius-md);
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-sm);
+    text-decoration: none;
+    transition: all var(--transition-base);
+  }
+  .saved-page :global(.browse-link:hover) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    color: var(--color-text-inverse);
+  }
+  .saved-page :global(.save-header) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+  }
+  .saved-page :global(.save-count) {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-weight: var(--weight-medium);
+    margin: 0;
+  }
+  .saved-page :global(.clear-btn) {
+    font-size: var(--text-sm);
+    color: var(--color-accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-weight: var(--weight-medium);
+  }
+  .saved-page :global(.clear-btn:hover) {
+    text-decoration: underline;
+  }
+  .saved-page :global(.save-list) {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .saved-page :global(.save-item) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-2);
+  }
+  .saved-page :global(.save-item-link) {
+    font-weight: var(--weight-medium);
+    text-decoration: none;
+    color: var(--color-text);
+    text-transform: capitalize;
+  }
+  .saved-page :global(.save-item-link:hover) {
+    color: var(--color-link);
+  }
+  .saved-page :global(.remove-btn) {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    padding: var(--space-1);
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast);
+  }
+  .saved-page :global(.remove-btn:hover) {
+    color: var(--color-accent);
   }
 </style>
