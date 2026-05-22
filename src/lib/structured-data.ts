@@ -1,0 +1,61 @@
+interface TalkData {
+  title: string;
+  speaker: string;
+  ted_url: string;
+  published_year?: number;
+  evidence_notes: string;
+}
+
+interface ExperimentData {
+  title: string;
+  one_line_claim: string;
+  instructions: string[];
+  time_cost_minutes: number;
+}
+
+export function talkJsonLd(
+  talk: { data: TalkData; id: string },
+  siteUrl: string
+): object {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: talk.data.title,
+    author: {
+      '@type': 'Person',
+      name: talk.data.speaker,
+    },
+    url: `${siteUrl}/talks/${talk.id}/`,
+    ...(talk.data.published_year && {
+      datePublished: String(talk.data.published_year),
+    }),
+    description: talk.data.evidence_notes,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'HAx',
+      url: siteUrl,
+    },
+  };
+}
+
+export function experimentJsonLd(
+  exp: { data: ExperimentData; id: string },
+  siteUrl: string
+): object {
+  const totalMinutes = exp.data.time_cost_minutes;
+  const isoDuration = `PT${totalMinutes}M`;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: exp.data.title,
+    description: exp.data.one_line_claim,
+    url: `${siteUrl}/experiments/${exp.id}/`,
+    totalTime: isoDuration,
+    step: exp.data.instructions.map((text, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      text,
+    })),
+  };
+}

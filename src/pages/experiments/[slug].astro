@@ -1,0 +1,234 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import EvidenceBadge from '../../components/EvidenceBadge.astro';
+import StudyLink from '../../components/StudyLink.astro';
+import { experimentJsonLd } from '../../lib/structured-data';
+import { EFFORT_LABELS } from '../../lib/taxonomy';
+
+export async function getStaticPaths() {
+  const experiments = await getCollection('experiments');
+  return experiments.map((exp) => ({ params: { slug: exp.id }, props: { experiment: exp } }));
+}
+
+const { experiment } = Astro.props;
+const { Content } = await render(experiment);
+
+const siteUrl = import.meta.env.SITE_URL || 'https://hax.example.com';
+const structuredData = experimentJsonLd(experiment, siteUrl);
+
+// Resolve source talks
+const sourceTalks = await Promise.all(
+  (experiment.data.source_talks || []).map((id: string) => getEntry('talks', id))
+);
+
+// Resolve related studies
+const relatedStudies = await Promise.all(
+  (experiment.data.related_studies || []).map((id: string) => getEntry('studies', id))
+);
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Experiments', href: '/experiments/' },
+  { label: experiment.data.title, href: `/experiments/${experiment.id}/` },
+];
+---
+
+<ContentLayout
+  title={experiment.data.title}
+  description={experiment.data.one_line_claim}
+  breadcrumbs={breadcrumbs}
+  lastReviewed={experiment.data.last_reviewed}
+  structuredData={structuredData}
+>
+  <header class="experiment-header">
+    <h1>{experiment.data.title}</h1>
+    <p class="experiment-claim">{experiment.data.one_line_claim}</p>
+    <div class="experiment-meta">
+      <EvidenceBadge level={experiment.data.evidence_level} />
+      <span class="meta-item">{experiment.data.time_cost_minutes} min</span>
+      <span class="meta-item">{EFFORT_LABELS[experiment.data.effort]} effort</span>
+    </div>
+  </header>
+
+  <section class="experiment-instructions">
+    <h2>Instructions</h2>
+    <ol class="instructions-list">
+      {experiment.data.instructions.map((step: string) => (
+        <li>{step}</li>
+      ))}
+    </ol>
+  </section>
+
+  {experiment.data.contraindications && (
+    <aside class="contraindications">
+      <h3>Contraindications</h3>
+      <p>{experiment.data.contraindications}</p>
+    </aside>
+  )}
+
+  <section class="experiment-body">
+    <Content />
+  </section>
+
+  <details class="evidence-details">
+    <summary>Evidence: {experiment.data.evidence_level.replace('_', ' / ')}</summary>
+    <p>{experiment.data.evidence_notes}</p>
+  </details>
+
+  {relatedStudies.filter(Boolean).length > 0 && (
+    <section class="related-studies">
+      <h2>Related Studies</h2>
+      <ul class="study-list">
+        {relatedStudies.filter(Boolean).map((study) => (
+          <StudyLink
+            title={study!.data.title}
+            authors={study!.data.authors}
+            year={study!.data.year}
+            url={study!.data.doi_or_url}
+            sourceType={study!.data.source_type}
+          />
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <Fragment slot="sidebar">
+    {sourceTalks.filter(Boolean).length > 0 && (
+      <section class="sidebar-section">
+        <h3>Source Talks</h3>
+        <ul class="sidebar-list">
+          {sourceTalks.filter(Boolean).map((talk) => (
+            <li>
+              <a href={`/talks/${talk!.id}/`}>{talk!.data.title}</a>
+              <p class="sidebar-speaker">by {talk!.data.speaker}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </Fragment>
+</ContentLayout>
+
+<style>
+  .experiment-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .experiment-header h1 {
+    margin-bottom: var(--space-2);
+  }
+
+  .experiment-claim {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+    font-style: italic;
+  }
+
+  .experiment-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    padding: var(--space-1) var(--space-2);
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+  }
+
+  .experiment-instructions h2 {
+    font-size: var(--text-xl);
+  }
+
+  .instructions-list {
+    padding-left: var(--space-6);
+    margin: var(--space-4) 0;
+  }
+
+  .instructions-list li {
+    margin-bottom: var(--space-3);
+    line-height: var(--leading-relaxed);
+  }
+
+  .contraindications {
+    background: color-mix(in srgb, var(--color-evidence-mixed) 8%, transparent);
+    border-left: 3px solid var(--color-evidence-mixed);
+    padding: var(--space-4);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--space-6) 0;
+  }
+
+  .contraindications h3 {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-2);
+  }
+
+  .contraindications p {
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+
+  .experiment-body {
+    margin: var(--space-8) 0;
+  }
+
+  .evidence-details {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin: var(--space-6) 0;
+  }
+
+  .evidence-details summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: var(--text-sm);
+  }
+
+  .evidence-details p {
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+
+  .related-studies h2 {
+    font-size: var(--text-xl);
+  }
+
+  .study-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar-section h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
+  }
+
+  .sidebar-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar-list li {
+    margin-bottom: var(--space-4);
+  }
+
+  .sidebar-list a {
+    font-weight: 500;
+  }
+
+  .sidebar-speaker {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: var(--space-1) 0 0;
+  }
+</style>

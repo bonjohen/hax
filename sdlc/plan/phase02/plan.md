@@ -14,20 +14,20 @@ status: "open"
 
 | No | Status | Started (PST) | Completed (PST) | Description |
 |----|--------|---------------|------------------|-------------|
-| 02.01 | Open | | | Create `src/layouts/ContentLayout.astro` extending BaseLayout with breadcrumbs, two-column layout (content + sidebar slot), last-reviewed date footer |
-| 02.02 | Open | | | Create `src/components/EvidenceBadge.astro` with color-coded label (green/blue/yellow/orange/gray) and title tooltip per PDR 4.8 |
-| 02.03 | Open | | | Create `src/components/TedEmbed.astro` with lazy-loaded iframe, sandbox attributes, fallback outbound link, `TED_EMBED_ENABLED` config check per PDR 4.10 |
-| 02.04 | Open | | | Create `src/components/StudyLink.astro` rendering study reference with title link, authors, year, source type per PDR 4.11 |
-| 02.05 | Open | | | Create `src/pages/talks/[slug].astro` — Talk detail page: title, speaker, summary, TedEmbed, transcript link, EvidenceBadge, evidence notes (collapsible `<details>`), related experiments, related studies |
-| 02.06 | Open | | | Create `src/pages/experiments/[slug].astro` — Experiment detail page: title, one-line claim, instructions (ordered list), time cost, effort, EvidenceBadge, evidence notes (collapsible `<details>`), source talks, contraindications, related studies |
-| 02.07 | Open | | | Create `src/lib/structured-data.ts` with helpers for generating JSON-LD for Talk (CreativeWork) and Experiment (HowTo) pages |
-| 02.08 | Open | | | Add JSON-LD structured data to Talk and Experiment page heads via ContentLayout |
-| 02.09 | Open | | | Write 3 additional talk content files and 2 additional experiment content files with full frontmatter and body (total: 5 talks, 5 experiments across all four clusters) |
-| 02.10 | Open | | | Create `tests/e2e/navigation.spec.ts` — Playwright test: navigate to a talk detail page, verify title, speaker, evidence badge, TED embed/link, and related experiments are present |
-| 02.11 | Open | | | Extend `tests/e2e/navigation.spec.ts` — Playwright test: navigate to an experiment detail page, verify title, claim, instructions, evidence badge, source talks are present |
-| 02.12 | Open | | | Extend `tests/e2e/accessibility.spec.ts` to scan talk detail and experiment detail pages |
-| 02.13 | Open | | | Verify: every talk page has all required elements per US-003 acceptance criteria; every experiment page has all required elements per US-004; JSON-LD validates |
-| 02.14 | Open | | | Stage all changes and commit: "Phase 02: Talk and experiment detail pages with evidence badges, TED embeds, and structured data" |
+| 02.01 | Completed | 2026-05-22 10:20 PM | 2026-05-22 10:22 PM | Create `src/layouts/ContentLayout.astro` extending BaseLayout with breadcrumbs, two-column layout (content + sidebar slot), last-reviewed date footer |
+| 02.02 | Completed | 2026-05-22 10:20 PM | 2026-05-22 10:22 PM | Create `src/components/EvidenceBadge.astro` with color-coded label (green/blue/yellow/orange/gray) and title tooltip per PDR 4.8 |
+| 02.03 | Completed | 2026-05-22 10:20 PM | 2026-05-22 10:22 PM | Create `src/components/TedEmbed.astro` with lazy-loaded iframe, sandbox attributes, fallback outbound link, `TED_EMBED_ENABLED` config check per PDR 4.10 |
+| 02.04 | Completed | 2026-05-22 10:20 PM | 2026-05-22 10:22 PM | Create `src/components/StudyLink.astro` rendering study reference with title link, authors, year, source type per PDR 4.11 |
+| 02.05 | Completed | 2026-05-22 10:22 PM | 2026-05-22 10:23 PM | Create `src/pages/talks/[slug].astro` — Talk detail page: title, speaker, summary, TedEmbed, transcript link, EvidenceBadge, evidence notes (collapsible `<details>`), related experiments, related studies |
+| 02.06 | Completed | 2026-05-22 10:22 PM | 2026-05-22 10:23 PM | Create `src/pages/experiments/[slug].astro` — Experiment detail page: title, one-line claim, instructions (ordered list), time cost, effort, EvidenceBadge, evidence notes (collapsible `<details>`), source talks, contraindications, related studies |
+| 02.07 | Completed | 2026-05-22 10:22 PM | 2026-05-22 10:23 PM | Create `src/lib/structured-data.ts` with helpers for generating JSON-LD for Talk (CreativeWork) and Experiment (HowTo) pages |
+| 02.08 | Completed | 2026-05-22 10:22 PM | 2026-05-22 10:23 PM | Add JSON-LD structured data to Talk and Experiment page heads via ContentLayout |
+| 02.09 | Completed | 2026-05-22 10:23 PM | 2026-05-22 10:24 PM | Write 3 additional talk content files and 2 additional experiment content files with full frontmatter and body (total: 5 talks, 5 experiments across all four clusters) |
+| 02.10 | Completed | 2026-05-22 10:24 PM | 2026-05-22 10:25 PM | Create `tests/e2e/navigation.spec.ts` — Playwright test: navigate to a talk detail page, verify title, speaker, evidence badge, TED embed/link, and related experiments are present |
+| 02.11 | Completed | 2026-05-22 10:24 PM | 2026-05-22 10:25 PM | Extend `tests/e2e/navigation.spec.ts` — Playwright test: navigate to an experiment detail page, verify title, claim, instructions, evidence badge, source talks are present |
+| 02.12 | Completed | 2026-05-22 10:25 PM | 2026-05-22 10:26 PM | Extend `tests/e2e/accessibility.spec.ts` to scan talk detail and experiment detail pages |
+| 02.13 | Completed | 2026-05-22 10:26 PM | 2026-05-22 10:27 PM | Verify: every talk page has all required elements per US-003 acceptance criteria; every experiment page has all required elements per US-004; JSON-LD validates |
+| 02.14 | Started | 2026-05-22 10:27 PM | | Stage all changes and commit: "Phase 02: Talk and experiment detail pages with evidence badges, TED embeds, and structured data" |
 
 ## Context
 
@@ -201,7 +201,5 @@ export function experimentJsonLd(exp: { data: ExperimentData; slug: string }, si
 
 ## Phase Summary
 
-_To be filled after completion._
-
-- **Changes:** TBD
-- **Commit:** TBD
+- **Changes:** Created `ContentLayout.astro` with two-column grid, `EvidenceBadge.astro` with WCAG-compliant colors, `TedEmbed.astro` with lazy iframe and sandbox, `StudyLink.astro` with outbound links, `structured-data.ts` with CreativeWork/HowTo JSON-LD helpers. Created `talks/[slug].astro` and `experiments/[slug].astro` detail pages. Added 3 talks (Susan Cain, Shawn Achor, Andy Puddicombe) and 3 experiments (solitude break, gratitude journal, 10-min meditation) covering all four clusters. Created `navigation.spec.ts` with talk/experiment tests and extended accessibility tests. Total: 6 talks, 6 experiments, 13 pages.
+- **Commit:** `Phase 02: Talk and experiment detail pages with evidence badges, TED embeds, and structured data`

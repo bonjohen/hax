@@ -1,0 +1,68 @@
+---
+import { EVIDENCE_LABELS } from '../lib/taxonomy';
+
+interface Props {
+  level: 'high' | 'moderate' | 'preliminary' | 'mixed_contested' | 'narrative_conceptual';
+  showTooltip?: boolean;
+}
+
+const { level, showTooltip = true } = Astro.props;
+
+const label = EVIDENCE_LABELS[level];
+
+const tooltips: Record<string, string> = {
+  high: 'Multiple high-quality studies support this claim',
+  moderate: 'Supported by credible research with some limitations',
+  preliminary: 'Early-stage research; promising but not yet confirmed',
+  mixed_contested: 'Evidence is conflicting or actively debated',
+  narrative_conceptual: 'Based on expert reasoning rather than empirical study',
+};
+---
+
+<span
+  class={`evidence-badge evidence-badge--${level}`}
+  title={showTooltip ? tooltips[level] : undefined}
+  role="img"
+  aria-label={`Evidence level: ${label}`}
+>
+  {label}
+</span>
+
+<style>
+  .evidence-badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .evidence-badge--high {
+    background: color-mix(in srgb, var(--color-evidence-high) 15%, transparent);
+    color: var(--color-evidence-high);
+  }
+
+  .evidence-badge--moderate {
+    background: color-mix(in srgb, var(--color-evidence-moderate) 15%, transparent);
+    color: var(--color-evidence-moderate);
+  }
+
+  .evidence-badge--preliminary {
+    background: color-mix(in srgb, #b8860b 15%, transparent);
+    color: #b8860b;
+  }
+
+  .evidence-badge--mixed_contested {
+    background: color-mix(in srgb, var(--color-evidence-mixed) 12%, transparent);
+    color: #9a4e00;
+  }
+
+  .evidence-badge--narrative_conceptual {
+    background: color-mix(in srgb, var(--color-evidence-narrative) 15%, transparent);
+    color: var(--color-evidence-narrative);
+  }
+</style>

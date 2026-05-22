@@ -1,0 +1,56 @@
+---
+interface Props {
+  embedUrl?: string;
+  tedUrl: string;
+  title: string;
+  speaker: string;
+}
+
+const { embedUrl, tedUrl, title, speaker } = Astro.props;
+const embedEnabled = import.meta.env.TED_EMBED_ENABLED !== 'false';
+const showIframe = embedEnabled && embedUrl;
+---
+
+<div class="ted-embed">
+  {showIframe && (
+    <div class="ted-embed__iframe-wrapper">
+      <iframe
+        src={embedUrl}
+        loading="lazy"
+        sandbox="allow-scripts allow-same-origin allow-popups"
+        aria-label={`${title} by ${speaker} — TED Talk`}
+        allowfullscreen
+      ></iframe>
+    </div>
+  )}
+  <p class="ted-embed__link">
+    <a href={tedUrl} target="_blank" rel="noopener noreferrer">
+      Watch on TED.com
+    </a>
+  </p>
+</div>
+
+<style>
+  .ted-embed__iframe-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-2);
+  }
+
+  .ted-embed__iframe-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .ted-embed__link {
+    font-size: var(--text-sm);
+    margin: 0;
+  }
+</style>

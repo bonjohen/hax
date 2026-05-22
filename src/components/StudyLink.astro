@@ -1,0 +1,48 @@
+---
+interface Props {
+  title: string;
+  authors: string;
+  year: number;
+  url: string;
+  sourceType?: string;
+}
+
+const { title, authors, year, url, sourceType } = Astro.props;
+---
+
+<li class="study-link">
+  <a href={url} target="_blank" rel="noopener noreferrer" class="study-link__title">
+    {title}
+  </a>
+  <span class="study-link__meta">
+    {authors} ({year})
+    {sourceType && <span class="study-link__type">{sourceType}</span>}
+  </span>
+</li>
+
+<style>
+  .study-link {
+    margin-bottom: var(--space-3);
+  }
+
+  .study-link__title {
+    display: block;
+    font-weight: 500;
+  }
+
+  .study-link__meta {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-top: var(--space-1);
+  }
+
+  .study-link__type {
+    display: inline-block;
+    padding: 0 var(--space-1);
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    margin-left: var(--space-1);
+  }
+</style>

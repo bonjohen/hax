@@ -1,0 +1,186 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import EvidenceBadge from '../../components/EvidenceBadge.astro';
+import TedEmbed from '../../components/TedEmbed.astro';
+import StudyLink from '../../components/StudyLink.astro';
+import { talkJsonLd } from '../../lib/structured-data';
+
+export async function getStaticPaths() {
+  const talks = await getCollection('talks');
+  return talks.map((talk) => ({ params: { slug: talk.id }, props: { talk } }));
+}
+
+const { talk } = Astro.props;
+const { Content } = await render(talk);
+
+const siteUrl = import.meta.env.SITE_URL || 'https://hax.example.com';
+const structuredData = talkJsonLd(talk, siteUrl);
+
+// Resolve related experiments
+const relatedExperiments = await Promise.all(
+  (talk.data.related_experiments || []).map((id: string) => getEntry('experiments', id))
+);
+
+// Resolve related studies
+const relatedStudies = await Promise.all(
+  (talk.data.related_studies || []).map((id: string) => getEntry('studies', id))
+);
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Talks', href: '/talks/' },
+  { label: talk.data.title, href: `/talks/${talk.id}/` },
+];
+---
+
+<ContentLayout
+  title={talk.data.title}
+  description={`${talk.data.title} by ${talk.data.speaker} — evidence-rated TED Talk analysis`}
+  breadcrumbs={breadcrumbs}
+  lastReviewed={talk.data.last_reviewed}
+  structuredData={structuredData}
+>
+  <header class="talk-header">
+    <h1>{talk.data.title}</h1>
+    <p class="talk-speaker">by {talk.data.speaker}</p>
+    <EvidenceBadge level={talk.data.evidence_level} />
+  </header>
+
+  <TedEmbed
+    embedUrl={talk.data.embed_url}
+    tedUrl={talk.data.ted_url}
+    title={talk.data.title}
+    speaker={talk.data.speaker}
+  />
+
+  {talk.data.transcript_url && (
+    <p class="transcript-link">
+      <a href={talk.data.transcript_url} target="_blank" rel="noopener noreferrer">
+        Read transcript on TED.com
+      </a>
+    </p>
+  )}
+
+  <section class="talk-body">
+    <Content />
+  </section>
+
+  <details class="evidence-details">
+    <summary>Evidence: {talk.data.evidence_level.replace('_', ' / ')}</summary>
+    <p>{talk.data.evidence_notes}</p>
+  </details>
+
+  {relatedStudies.filter(Boolean).length > 0 && (
+    <section class="related-studies">
+      <h2>Related Studies</h2>
+      <ul class="study-list">
+        {relatedStudies.filter(Boolean).map((study) => (
+          <StudyLink
+            title={study!.data.title}
+            authors={study!.data.authors}
+            year={study!.data.year}
+            url={study!.data.doi_or_url}
+            sourceType={study!.data.source_type}
+          />
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <Fragment slot="sidebar">
+    {relatedExperiments.filter(Boolean).length > 0 && (
+      <section class="sidebar-section">
+        <h3>Related Experiments</h3>
+        <ul class="sidebar-list">
+          {relatedExperiments.filter(Boolean).map((exp) => (
+            <li>
+              <a href={`/experiments/${exp!.id}/`}>{exp!.data.title}</a>
+              <p class="sidebar-claim">{exp!.data.one_line_claim}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </Fragment>
+</ContentLayout>
+
+<style>
+  .talk-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .talk-header h1 {
+    margin-bottom: var(--space-2);
+  }
+
+  .talk-speaker {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .transcript-link {
+    font-size: var(--text-sm);
+    margin-top: var(--space-2);
+  }
+
+  .talk-body {
+    margin: var(--space-8) 0;
+  }
+
+  .evidence-details {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin: var(--space-6) 0;
+  }
+
+  .evidence-details summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: var(--text-sm);
+  }
+
+  .evidence-details p {
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+
+  .related-studies h2 {
+    font-size: var(--text-xl);
+  }
+
+  .study-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar-section h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
+  }
+
+  .sidebar-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar-list li {
+    margin-bottom: var(--space-4);
+  }
+
+  .sidebar-list a {
+    font-weight: 500;
+  }
+
+  .sidebar-claim {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: var(--space-1) 0 0;
+  }
+</style>

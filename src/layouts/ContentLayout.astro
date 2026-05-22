@@ -1,0 +1,72 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  breadcrumbs: Array<{ label: string; href: string }>;
+  lastReviewed: Date;
+  structuredData: object;
+}
+
+const { title, description, breadcrumbs, lastReviewed, structuredData } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} structuredData={structuredData}>
+  <div class="container">
+    <Breadcrumb items={breadcrumbs} />
+    <div class="content-layout">
+      <article class="content-main">
+        <slot />
+      </article>
+      <aside class="content-sidebar">
+        <slot name="sidebar" />
+      </aside>
+    </div>
+    <footer class="content-footer">
+      <p>Last reviewed: <time datetime={lastReviewed.toISOString()}>
+        {lastReviewed.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+      </time></p>
+    </footer>
+  </div>
+</BaseLayout>
+
+<style>
+  .content-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    padding: var(--space-4) 0;
+  }
+
+  .content-main {
+    min-width: 0;
+  }
+
+  .content-sidebar {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-6);
+  }
+
+  .content-footer {
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+    margin-top: var(--space-8);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 1024px) {
+    .content-layout {
+      grid-template-columns: 1fr var(--sidebar-width);
+    }
+
+    .content-sidebar {
+      border-top: none;
+      border-left: 1px solid var(--color-border);
+      padding-top: 0;
+      padding-left: var(--space-6);
+    }
+  }
+</style>

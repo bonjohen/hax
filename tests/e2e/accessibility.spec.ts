@@ -41,6 +41,28 @@ test.describe('Accessibility', () => {
     await expect(footer).toContainText('non-commercial');
   });
 
+  test('talk detail page has no critical accessibility violations', async ({ page }) => {
+    await page.goto('/talks/amy-cuddy-body-language/');
+    const results = await new AxeBuilder({ page })
+      .exclude('iframe') // Exclude third-party TED embed content
+      .analyze();
+    const serious = results.violations.filter(
+      (v) => v.impact === 'critical' || v.impact === 'serious'
+    );
+    expect(serious).toEqual([]);
+  });
+
+  test('experiment detail page has no critical accessibility violations', async ({ page }) => {
+    await page.goto('/experiments/power-pose/');
+    const results = await new AxeBuilder({ page })
+      .exclude('iframe')
+      .analyze();
+    const serious = results.violations.filter(
+      (v) => v.impact === 'critical' || v.impact === 'serious'
+    );
+    expect(serious).toEqual([]);
+  });
+
   test('mobile nav is keyboard accessible', async ({ page }) => {
     // Set mobile viewport
     await page.setViewportSize({ width: 375, height: 667 });
