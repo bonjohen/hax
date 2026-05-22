@@ -5,7 +5,7 @@ depends_on: "Phase 05, Phase 04"
 goal: "Landing page with all entry points, About page with methodology, Resources page with study listings."
 source_pdr_sections: ["4.1", "4.4", "4.11"]
 source_user_stories: ["US-001", "US-022", "US-023"]
-status: "open"
+status: "completed"
 ---
 
 # Phase 07: Landing Page and Static Pages
@@ -14,14 +14,14 @@ status: "open"
 
 | No | Status | Started (PST) | Completed (PST) | Description |
 |----|--------|---------------|------------------|-------------|
-| 07.01 | Open | | | Rebuild `src/pages/index.astro` as the landing page: hero section explaining HAx, cluster cards (4, linking to cluster hubs), persona cards (3+, linking to dashboards), featured experiments strip (editorially curated), search bar (linking to /search/), methodology ribbon (one-line evidence summary with link to /about/) |
-| 07.02 | Open | | | Create `src/pages/about.astro` — methodology page: evidence rubric table (5 levels with definitions), citation policy, editorial posture, update cadence, legal/copyright notes (TED attribution, CC BY-NC-ND) |
-| 07.03 | Open | | | Create `src/pages/resources.astro` — resources listing: render all Resource collection entries grouped by type, with StudyLink component for study-type resources; include sections for TED playlists, transcript guidance, glossary |
-| 07.04 | Open | | | Write additional Resource content files as needed (TED playlists, transcript guidance links, glossary entries) |
-| 07.05 | Open | | | Extend `tests/e2e/navigation.spec.ts` — landing page: verify cluster cards, persona cards, featured experiments, search bar, methodology ribbon are present and linked correctly |
-| 07.06 | Open | | | Extend `tests/e2e/navigation.spec.ts` — About page: verify evidence rubric table, legal notes |
-| 07.07 | Open | | | Extend `tests/e2e/accessibility.spec.ts` to scan landing page, About, and Resources pages |
-| 07.08 | Open | | | Stage all changes and commit: "Phase 07: Landing page, About, and Resources pages" |
+| 07.01 | Completed | 2026-05-22 04:35 PM | 2026-05-22 04:38 PM | Rebuild `src/pages/index.astro` as the landing page: hero section explaining HAx, cluster cards (4, linking to cluster hubs), persona cards (3+, linking to dashboards), featured experiments strip (editorially curated), search bar (linking to /search/), methodology ribbon (one-line evidence summary with link to /about/) |
+| 07.02 | Completed | 2026-05-22 04:38 PM | 2026-05-22 04:39 PM | Create `src/pages/about.astro` — methodology page: evidence rubric table (5 levels with definitions), citation policy, editorial posture, update cadence, legal/copyright notes (TED attribution, CC BY-NC-ND) |
+| 07.03 | Completed | 2026-05-22 04:39 PM | 2026-05-22 04:41 PM | Create `src/pages/resources.astro` — resources listing: render all Resource collection entries grouped by type, with StudyLink component for study-type resources; include sections for TED playlists, transcript guidance, glossary |
+| 07.04 | Completed | 2026-05-22 04:39 PM | 2026-05-22 04:40 PM | Write additional Resource content files as needed (TED playlists, transcript guidance links, glossary entries) |
+| 07.05 | Completed | 2026-05-22 04:41 PM | 2026-05-22 04:43 PM | Extend `tests/e2e/navigation.spec.ts` — landing page: verify cluster cards, persona cards, featured experiments, search bar, methodology ribbon are present and linked correctly |
+| 07.06 | Completed | 2026-05-22 04:43 PM | 2026-05-22 04:43 PM | Extend `tests/e2e/navigation.spec.ts` — About page: verify evidence rubric table, legal notes |
+| 07.07 | Completed | 2026-05-22 04:43 PM | 2026-05-22 04:44 PM | Extend `tests/e2e/accessibility.spec.ts` to scan landing page, About, and Resources pages |
+| 07.08 | Completed | 2026-05-22 04:44 PM | 2026-05-22 04:45 PM | Stage all changes and commit: "Phase 07: Landing page, About, and Resources pages" |
 
 ## Context
 
@@ -183,5 +183,5 @@ const grouped = resources.reduce((acc, r) => {
 
 _To be filled after completion._
 
-- **Changes:** TBD
-- **Commit:** TBD
+- **Changes:** Added persona cards, search CTA, and methodology ribbon to landing page. Enhanced about page with CC BY-NC-ND notice and update cadence. Rebuilt resources page with type-based grouping and referenced studies via StudyLink. Created 4 new resource content files (playlists, guide, glossary). Added 9 new e2e tests (landing page, about page, resources page) and 2 accessibility scans (about, resources).
+- **Commit:** `Phase 07: Landing page, About, and Resources pages`

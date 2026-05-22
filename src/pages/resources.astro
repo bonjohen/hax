@@ -2,12 +2,36 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
+import StudyLink from '../components/StudyLink.astro';
 
 const resources = await getCollection('resources');
+const studies = await getCollection('studies');
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Resources', href: '/resources/' },
 ];
+
+// Group resources by type
+const grouped: Record<string, typeof resources> = {};
+for (const r of resources) {
+  const type = r.data.type;
+  if (!grouped[type]) grouped[type] = [];
+  grouped[type].push(r);
+}
+
+const typeLabels: Record<string, string> = {
+  playlist: 'TED Playlists',
+  guide: 'Guides',
+  glossary: 'Glossary',
+  study: 'Studies',
+};
+
+const typeOrder = ['playlist', 'guide', 'glossary', 'study'];
+const sortedTypes = typeOrder.filter(t => grouped[t]);
+// Add any types not in the predefined order
+for (const t of Object.keys(grouped)) {
+  if (!sortedTypes.includes(t)) sortedTypes.push(t);
+}
 ---
 
 <BaseLayout title="Resources" description="Curated resources, study links, and TED playlists for further exploration.">
@@ -17,19 +41,42 @@ const breadcrumbs = [
       <h1>Resources</h1>
       <p class="lead">Further reading, curated playlists, and research links related to HAx experiments.</p>
 
-      {resources.length > 0 && (
-        <section>
-          <h2>Curated Links</h2>
+      {sortedTypes.map((type) => (
+        <section class="resource-section">
+          <h2>{typeLabels[type] || type.charAt(0).toUpperCase() + type.slice(1)}</h2>
           <ul class="resource-list">
-            {resources.map((r) => (
-              <li>
-                {r.data.url ? (
-                  <a href={r.data.url} target="_blank" rel="noopener noreferrer">{r.data.title}</a>
-                ) : (
-                  <span>{r.data.title}</span>
-                )}
-                <span class="resource-type">{r.data.type}</span>
+            {grouped[type].map((r) => (
+              <li class="resource-item">
+                <div class="resource-content">
+                  {r.data.url ? (
+                    <a href={r.data.url} target="_blank" rel="noopener noreferrer" class="resource-title">{r.data.title}</a>
+                  ) : (
+                    <span class="resource-title">{r.data.title}</span>
+                  )}
+                  {r.data.license_or_usage_note && (
+                    <span class="resource-note">{r.data.license_or_usage_note}</span>
+                  )}
+                </div>
+                <span class="resource-type">{type}</span>
               </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+
+      {studies.length > 0 && (
+        <section class="resource-section">
+          <h2>Referenced Studies</h2>
+          <p>Primary research cited in HAx experiment evidence ratings.</p>
+          <ul class="study-list">
+            {studies.map((s) => (
+              <StudyLink
+                title={s.data.title}
+                authors={s.data.authors}
+                year={s.data.year}
+                url={s.data.doi_or_url}
+                sourceType={s.data.source_type}
+              />
             ))}
           </ul>
         </section>
@@ -47,23 +94,51 @@ const breadcrumbs = [
     font-size: var(--text-lg);
     color: var(--color-text-muted);
     margin-bottom: var(--space-8);
+    line-height: var(--leading-relaxed);
+  }
+  .resource-section {
+    margin-bottom: var(--space-10);
+  }
+  .resource-section h2 {
+    margin-top: var(--space-8);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-border-light);
   }
   .resource-list {
     list-style: none;
     padding: 0;
   }
-  .resource-list li {
-    padding: var(--space-3) 0;
-    border-bottom: 1px solid var(--color-border);
+  .resource-item {
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border-light);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: space-between;
     gap: var(--space-3);
   }
+  .resource-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  .resource-title {
+    font-weight: var(--weight-medium);
+  }
+  .resource-note {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
   .resource-type {
+    flex-shrink: 0;
     font-size: var(--text-xs);
     padding: var(--space-1) var(--space-2);
     background: var(--color-surface);
     border-radius: var(--radius-sm);
     color: var(--color-text-muted);
+    text-transform: capitalize;
+  }
+  .study-list {
+    list-style: none;
+    padding: 0;
   }
 </style>

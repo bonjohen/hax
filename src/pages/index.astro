@@ -6,6 +6,7 @@ import ExperimentCard from '../components/ExperimentCard.astro';
 const experiments = await getCollection('experiments');
 const talks = await getCollection('talks');
 const clusters = await getCollection('clusters');
+const personas = await getCollection('personas');
 
 const clusterColors: Record<string, string> = {
   body: 'var(--color-cluster-body)',
@@ -114,12 +115,43 @@ const featured = experiments
     </section>
   )}
 
-  <!-- CTA Banner -->
-  <section class="cta-banner">
-    <div class="container cta-inner">
-      <h2 class="cta-title">Not sure where to start?</h2>
-      <p class="cta-description">Pick a persona that matches your goals and get a curated set of experiments to try.</p>
-      <a href="/personas/" class="btn btn-primary">Find Your Persona</a>
+  <!-- Persona Cards -->
+  <section class="personas-section">
+    <div class="container">
+      <div class="section-heading">
+        <span class="section-overline">Navigate by Goal</span>
+        <h2>Find Your Path</h2>
+      </div>
+      <div class="persona-grid">
+        {personas.map((p) => (
+          <a href={`/personas/${p.data.id}/`} class="persona-card">
+            <h3 class="persona-name">{p.data.persona_name}</h3>
+            <p class="persona-meta">{p.data.recommended_clusters.length} clusters &middot; {p.data.recommended_experiments.length} experiments</p>
+            <span class="persona-arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Search CTA -->
+  <section class="search-section">
+    <div class="container search-inner">
+      <div class="search-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+      </div>
+      <h2 class="search-title">Search experiments and talks</h2>
+      <p class="search-description">Find exactly what you're looking for across all experiments, talks, and clusters.</p>
+      <a href="/search/" class="btn btn-secondary search-link">Go to Search &rarr;</a>
+    </div>
+  </section>
+
+  <!-- Methodology Ribbon -->
+  <section class="methodology-ribbon">
+    <div class="container ribbon-inner">
+      <p class="ribbon-text">Every experiment is rated on a <strong>five-level evidence scale</strong> based on published research. <a href="/about/" class="ribbon-link">Learn about our methodology &rarr;</a></p>
     </div>
   </section>
 </BaseLayout>
@@ -416,25 +448,137 @@ const featured = experiments
     text-align: center;
   }
 
-  /* CTA Banner */
-  .cta-banner {
+  /* Persona Cards */
+  .personas-section {
     padding: var(--space-16) 0;
   }
 
-  .cta-inner {
+  .persona-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .persona-card {
+    display: block;
+    padding: var(--space-6);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .persona-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-warm);
+  }
+
+  .persona-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+    color: var(--color-text);
+  }
+
+  .persona-name {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+    margin: 0 0 var(--space-2);
+  }
+
+  .persona-meta {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .persona-arrow {
+    position: absolute;
+    right: var(--space-6);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    transition: transform var(--transition-fast);
+  }
+
+  .persona-card:hover .persona-arrow {
+    transform: translateY(-50%) translateX(4px);
+    color: var(--color-accent);
+  }
+
+  @media (min-width: 640px) {
+    .persona-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Search Section */
+  .search-section {
+    padding: var(--space-16) 0;
+    background: var(--color-surface);
+  }
+
+  .search-inner {
     text-align: center;
     max-width: 32rem;
     margin: 0 auto;
   }
 
-  .cta-title {
-    font-size: var(--text-3xl);
+  .search-icon {
+    color: var(--color-link);
     margin-bottom: var(--space-4);
   }
 
-  .cta-description {
-    font-size: var(--text-lg);
+  .search-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-3);
+  }
+
+  .search-description {
+    font-size: var(--text-base);
     color: var(--color-text-muted);
     margin-bottom: var(--space-6);
+  }
+
+  /* Methodology Ribbon */
+  .methodology-ribbon {
+    padding: var(--space-8) 0;
+    background: var(--color-dark);
+    color: var(--color-dark-text);
+  }
+
+  .ribbon-inner {
+    text-align: center;
+  }
+
+  .ribbon-text {
+    font-size: var(--text-base);
+    color: var(--color-dark-muted);
+    margin: 0;
+  }
+
+  .ribbon-text strong {
+    color: var(--color-text-inverse);
+  }
+
+  .ribbon-link {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: var(--weight-semibold);
+  }
+
+  .ribbon-link:hover {
+    text-decoration: underline;
   }
 </style>

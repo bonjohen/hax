@@ -146,6 +146,102 @@ test.describe('Cluster Hub Pages', () => {
   });
 });
 
+test.describe('Landing Page', () => {
+  test('landing page renders hero, clusters, featured, personas, search, and methodology', async ({ page }) => {
+    await page.goto('/');
+
+    // Hero section
+    await expect(page.locator('.hero')).toBeVisible();
+    await expect(page.locator('.hero-title')).toContainText('actionable experiments');
+
+    // Cluster cards (4)
+    const clusterCards = page.locator('.cluster-card');
+    await expect(clusterCards).toHaveCount(4);
+
+    // Persona cards (3)
+    const personaCards = page.locator('.persona-card');
+    await expect(personaCards).toHaveCount(3);
+
+    // Featured experiments
+    const featuredSection = page.locator('.featured-section');
+    await expect(featuredSection).toBeVisible();
+    await expect(featuredSection.locator('.experiment-card').first()).toBeVisible();
+
+    // Search link
+    const searchLink = page.locator('.search-link');
+    await expect(searchLink).toBeVisible();
+    await expect(searchLink).toHaveAttribute('href', '/search/');
+
+    // Methodology ribbon
+    const ribbon = page.locator('.methodology-ribbon');
+    await expect(ribbon).toBeVisible();
+    await expect(ribbon.locator('a[href="/about/"]')).toBeVisible();
+  });
+
+  test('cluster cards link to correct hub pages', async ({ page }) => {
+    await page.goto('/');
+    for (const id of ['body', 'cognition', 'environment', 'social']) {
+      const link = page.locator(`.cluster-card[href="/clusters/${id}/"]`);
+      await expect(link).toBeVisible();
+    }
+  });
+
+  test('persona cards link to correct dashboard pages', async ({ page }) => {
+    await page.goto('/');
+    for (const id of ['knowledge-worker', 'student', 'team-lead']) {
+      const link = page.locator(`.persona-card[href="/personas/${id}/"]`);
+      await expect(link).toBeVisible();
+    }
+  });
+});
+
+test.describe('About Page', () => {
+  test('about page renders evidence rubric table', async ({ page }) => {
+    await page.goto('/about/');
+    await expect(page.locator('h1')).toContainText('About HAx');
+
+    // Evidence table with 5 levels
+    const table = page.locator('.evidence-table');
+    await expect(table).toBeVisible();
+    const rows = table.locator('tbody tr');
+    await expect(rows).toHaveCount(5);
+
+    // Check all five levels are present
+    await expect(table).toContainText('High');
+    await expect(table).toContainText('Moderate');
+    await expect(table).toContainText('Preliminary');
+    await expect(table).toContainText('Mixed');
+    await expect(table).toContainText('Narrative');
+  });
+
+  test('about page has legal notes with TED attribution and CC BY-NC-ND', async ({ page }) => {
+    await page.goto('/about/');
+    const article = page.locator('article');
+    await expect(article).toContainText('not affiliated with TED');
+    await expect(article).toContainText('CC BY-NC-ND');
+    await expect(article).toContainText('non-commercial');
+  });
+});
+
+test.describe('Resources Page', () => {
+  test('resources page groups by type', async ({ page }) => {
+    await page.goto('/resources/');
+    await expect(page.locator('h1')).toContainText('Resources');
+
+    // Should have section headings for resource types
+    await expect(page.locator('.resource-section').first()).toBeVisible();
+
+    // Should have at least one resource item
+    await expect(page.locator('.resource-item').first()).toBeVisible();
+  });
+
+  test('resources page shows referenced studies', async ({ page }) => {
+    await page.goto('/resources/');
+    await expect(page.locator('text=Referenced Studies')).toBeVisible();
+    await expect(page.locator('.study-list .study-link').first()).toBeVisible();
+  });
+});
+
 test.describe('Persona Dashboards', () => {
   test('knowledge-worker persona renders goals and experiments', async ({ page }) => {
     await page.goto('/personas/knowledge-worker/');
