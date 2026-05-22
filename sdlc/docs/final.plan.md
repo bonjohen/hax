@@ -70,7 +70,7 @@ Open  ──>  Started  ──>  Completed
 | 00.09 | Completed | 2026-05-22 10:07 PM | 2026-05-22 10:07 PM | Set up CI pipeline (GitHub Actions): install deps, type-check (`astro check`), build (`astro build`), verify build succeeds |
 | 00.10 | Completed | 2026-05-22 10:07 PM | 2026-05-22 10:08 PM | Verify schema validation: create an intentionally invalid content file, confirm build fails with a clear error, then remove the invalid file |
 | 00.11 | Completed | 2026-05-22 10:07 PM | 2026-05-22 10:07 PM | Create `package.json` scripts: `dev`, `build`, `preview`, `check`, `test` |
-| 00.12 | Started | 2026-05-22 10:08 PM | | Stage all changes and commit: "Phase 00: Project scaffold with content schemas, TED embed validation, and CI pipeline" |
+| 00.12 | Completed | 2026-05-22 10:08 PM | 2026-05-22 10:10 PM | Stage all changes and commit: "Phase 00: Project scaffold with content schemas, TED embed validation, and CI pipeline" |
 
 ### Phase 00 Summary
 
