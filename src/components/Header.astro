@@ -1,0 +1,330 @@
+---
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const navLinks = [
+  { label: 'Clusters', href: '/clusters/', children: [
+    { label: 'Body', href: '/clusters/body/' },
+    { label: 'Cognition', href: '/clusters/cognition/' },
+    { label: 'Environment', href: '/clusters/environment/' },
+    { label: 'Social', href: '/clusters/social/' },
+  ]},
+  { label: 'Personas', href: '/personas/' },
+  { label: 'Search', href: '/search/' },
+  { label: 'About', href: '/about/' },
+  { label: 'Saved', href: '/saved/' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<header class="site-header no-print">
+  <div class="container header-inner">
+    <a href="/" class="site-title">HAx</a>
+
+    <details class="mobile-nav">
+      <summary aria-label="Toggle navigation menu">
+        <span class="hamburger" aria-hidden="true"></span>
+      </summary>
+      <nav aria-label="Main navigation (mobile)">
+        <ul class="nav-list nav-list--mobile">
+          {navLinks.map((link) => (
+            <li>
+              {link.children ? (
+                <>
+                  <span class="nav-group-label">{link.label}</span>
+                  <ul class="nav-sublist">
+                    {link.children.map((child) => (
+                      <li>
+                        <a
+                          href={child.href}
+                          aria-current={isActive(child.href) ? 'page' : undefined}
+                        >
+                          {child.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <a
+                  href={link.href}
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                >
+                  {link.label}
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </details>
+
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <ul class="nav-list nav-list--desktop">
+        {navLinks.map((link) => (
+          <li class={link.children ? 'has-dropdown' : ''}>
+            {link.children ? (
+              <>
+                <button
+                  class="nav-dropdown-trigger"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                >
+                  {link.label}
+                </button>
+                <ul class="nav-dropdown">
+                  {link.children.map((child) => (
+                    <li>
+                      <a
+                        href={child.href}
+                        aria-current={isActive(child.href) ? 'page' : undefined}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <a
+                href={link.href}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  document.querySelectorAll('.nav-dropdown-trigger').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+    });
+
+    btn.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') {
+        btn.setAttribute('aria-expanded', 'false');
+        (btn as HTMLElement).focus();
+      }
+    });
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    document.querySelectorAll('.nav-dropdown-trigger').forEach((btn) => {
+      if (!btn.parentElement?.contains(e.target as Node)) {
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+</script>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 3.5rem;
+  }
+
+  .site-title {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .site-title:hover {
+    color: var(--color-link);
+  }
+
+  /* Nav lists reset */
+  .nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-list a,
+  .nav-dropdown-trigger {
+    text-decoration: none;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .nav-list a:hover,
+  .nav-dropdown-trigger:hover {
+    color: var(--color-link);
+  }
+
+  .nav-list a[aria-current="page"] {
+    color: var(--color-link);
+    font-weight: 600;
+  }
+
+  /* Desktop nav */
+  .desktop-nav {
+    display: none;
+  }
+
+  .nav-list--desktop {
+    display: flex;
+    gap: var(--space-6);
+    align-items: center;
+  }
+
+  .has-dropdown {
+    position: relative;
+  }
+
+  .nav-dropdown-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-2) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .nav-dropdown-trigger::after {
+    content: '';
+    display: inline-block;
+    width: 0.4em;
+    height: 0.4em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    margin-top: -0.15em;
+  }
+
+  .nav-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    list-style: none;
+    margin: 0;
+    padding: var(--space-2) 0;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    min-width: 10rem;
+    z-index: 60;
+  }
+
+  .nav-dropdown-trigger[aria-expanded="true"] + .nav-dropdown {
+    display: block;
+  }
+
+  .nav-dropdown li a {
+    display: block;
+    padding: var(--space-2) var(--space-4);
+    white-space: nowrap;
+  }
+
+  .nav-dropdown li a:hover {
+    background: var(--color-surface);
+  }
+
+  /* Mobile nav */
+  .mobile-nav {
+    display: block;
+  }
+
+  .mobile-nav summary {
+    list-style: none;
+    cursor: pointer;
+    padding: var(--space-2);
+  }
+
+  .mobile-nav summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+    width: 1.25rem;
+    height: 2px;
+    background: var(--color-text);
+    position: relative;
+  }
+
+  .hamburger::before,
+  .hamburger::after {
+    content: '';
+    display: block;
+    width: 1.25rem;
+    height: 2px;
+    background: var(--color-text);
+    position: absolute;
+    left: 0;
+  }
+
+  .hamburger::before { top: -6px; }
+  .hamburger::after { top: 6px; }
+
+  .nav-list--mobile {
+    padding: var(--space-4);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .nav-list--mobile li {
+    margin-bottom: var(--space-2);
+  }
+
+  .nav-list--mobile a {
+    display: block;
+    padding: var(--space-2) 0;
+  }
+
+  .nav-group-label {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: var(--space-2) 0 var(--space-1);
+  }
+
+  .nav-sublist {
+    list-style: none;
+    padding-left: var(--space-4);
+    margin: 0;
+  }
+
+  /* Responsive breakpoint */
+  @media (min-width: 1024px) {
+    .mobile-nav {
+      display: none;
+    }
+
+    .desktop-nav {
+      display: block;
+    }
+  }
+</style>

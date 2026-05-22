@@ -10,11 +10,16 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "echo \"No tests configured yet\""
+    "test": "npx playwright test",
+    "test:e2e": "npx playwright test"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
     "astro": "^6.3.7",
     "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
+    "@playwright/test": "^1.60.0"
   }
 }

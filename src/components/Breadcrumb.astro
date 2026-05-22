@@ -1,0 +1,70 @@
+---
+interface Props {
+  items: Array<{ label: string; href: string }>;
+}
+
+const { items } = Astro.props;
+
+// Build JSON-LD BreadcrumbList
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": items.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.label,
+    "item": index < items.length - 1 ? new URL(item.href, Astro.site).href : undefined,
+  })),
+};
+---
+
+<nav aria-label="Breadcrumb" class="breadcrumb">
+  <ol class="breadcrumb-list">
+    {items.map((item, index) => (
+      <li class="breadcrumb-item">
+        {index < items.length - 1 ? (
+          <a href={item.href}>{item.label}</a>
+        ) : (
+          <span aria-current="page">{item.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+
+<style>
+  .breadcrumb {
+    padding: var(--space-3) 0;
+    font-size: var(--text-sm);
+  }
+
+  .breadcrumb-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .breadcrumb-item + .breadcrumb-item::before {
+    content: '/';
+    color: var(--color-text-muted);
+    margin-right: var(--space-1);
+  }
+
+  .breadcrumb-item a {
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  .breadcrumb-item a:hover {
+    text-decoration: underline;
+  }
+
+  .breadcrumb-item span[aria-current="page"] {
+    color: var(--color-text-muted);
+  }
+</style>

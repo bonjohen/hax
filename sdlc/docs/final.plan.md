@@ -89,27 +89,25 @@ Open  ──>  Started  ──>  Completed
 
 | No | Status | Started (PST) | Completed (PST) | Description |
 |----|--------|---------------|------------------|-------------|
-| 01.01 | Open | | | Create `src/styles/global.css` with design tokens (colors, typography scale, spacing, breakpoints at 640px/1024px) |
-| 01.02 | Open | | | Create `src/layouts/BaseLayout.astro` with HTML `<head>` (meta, OG placeholders, canonical URL slot), skip link, header slot, `<main>`, footer slot, print stylesheet link |
-| 01.03 | Open | | | Create `src/components/Header.astro` with site title, nav links (Clusters, Personas, Search, About, Saved), `aria-current="page"` on active link |
-| 01.04 | Open | | | Implement responsive mobile navigation in Header (hamburger menu with `<details>/<summary>` or button toggle with ARIA) |
-| 01.05 | Open | | | Create `src/components/Footer.astro` with nav links (About, Resources), copyright notice, TED attribution statement, non-commercial notice |
-| 01.06 | Open | | | Create `src/components/Breadcrumb.astro` with ordered list, `aria-label="Breadcrumb"`, current page not linked |
-| 01.07 | Open | | | Create `src/styles/print.css` with `@media print` rules hiding nav, footer, and interactive elements |
-| 01.08 | Open | | | Update `src/pages/index.astro` to use BaseLayout with Header and Footer (placeholder content) |
-| 01.09 | Open | | | Install Playwright and @axe-core/playwright as dev dependencies |
-| 01.10 | Open | | | Create `tests/e2e/accessibility.spec.ts` — Playwright test that loads index page, runs axe-core scan, asserts zero critical/serious violations |
-| 01.11 | Open | | | Add Playwright and Lighthouse CI steps to GitHub Actions CI pipeline |
-| 01.12 | Open | | | Verify: skip link is first focusable element, moves focus to `<main>`; breadcrumb renders "Home"; Lighthouse accessibility ≥ 90; print preview hides nav/footer |
-| 01.13 | Open | | | Remove test-embed page from Phase 00 (no longer needed after TED validation) |
-| 01.14 | Open | | | Stage all changes and commit: "Phase 01: Base layout with responsive navigation, skip links, and accessibility CI" |
+| 01.01 | Completed | 2026-05-22 10:15 PM | 2026-05-22 10:18 PM | Create `src/styles/global.css` with design tokens (colors, typography scale, spacing, breakpoints at 640px/1024px) |
+| 01.02 | Completed | 2026-05-22 10:15 PM | 2026-05-22 10:18 PM | Create `src/layouts/BaseLayout.astro` with HTML `<head>` (meta, OG placeholders, canonical URL slot), skip link, header slot, `<main>`, footer slot, print stylesheet link |
+| 01.03 | Completed | 2026-05-22 10:15 PM | 2026-05-22 10:18 PM | Create `src/components/Header.astro` with site title, nav links (Clusters, Personas, Search, About, Saved), `aria-current="page"` on active link |
+| 01.04 | Completed | 2026-05-22 10:15 PM | 2026-05-22 10:18 PM | Implement responsive mobile navigation in Header (hamburger menu with `<details>/<summary>` or button toggle with ARIA) |
+| 01.05 | Completed | 2026-05-22 10:15 PM | 2026-05-22 10:18 PM | Create `src/components/Footer.astro` with nav links (About, Resources), copyright notice, TED attribution statement, non-commercial notice |
+| 01.06 | Completed | 2026-05-22 10:15 PM | 2026-05-22 10:18 PM | Create `src/components/Breadcrumb.astro` with ordered list, `aria-label="Breadcrumb"`, current page not linked |
+| 01.07 | Completed | 2026-05-22 10:15 PM | 2026-05-22 10:18 PM | Create `src/styles/print.css` with `@media print` rules hiding nav, footer, and interactive elements |
+| 01.08 | Completed | 2026-05-22 10:15 PM | 2026-05-22 10:18 PM | Update `src/pages/index.astro` to use BaseLayout with Header and Footer (placeholder content) |
+| 01.09 | Completed | 2026-05-22 10:19 PM | 2026-05-22 10:20 PM | Install Playwright and @axe-core/playwright as dev dependencies |
+| 01.10 | Completed | 2026-05-22 10:20 PM | 2026-05-22 10:21 PM | Create `tests/e2e/accessibility.spec.ts` — Playwright test that loads index page, runs axe-core scan, asserts zero critical/serious violations |
+| 01.11 | Completed | 2026-05-22 10:20 PM | 2026-05-22 10:21 PM | Add Playwright and Lighthouse CI steps to GitHub Actions CI pipeline |
+| 01.12 | Completed | 2026-05-22 10:21 PM | 2026-05-22 10:22 PM | Verify: skip link is first focusable element, moves focus to `<main>`; breadcrumb renders "Home"; Lighthouse accessibility ≥ 90; print preview hides nav/footer |
+| 01.13 | Completed | 2026-05-22 10:22 PM | 2026-05-22 10:22 PM | Remove test-embed page from Phase 00 (no longer needed after TED validation) |
+| 01.14 | Started | 2026-05-22 10:22 PM | | Stage all changes and commit: "Phase 01: Base layout with responsive navigation, skip links, and accessibility CI" |
 
 ### Phase 01 Summary
 
-_To be filled after completion._
-
-- **Changes:** TBD
-- **Commit:** TBD
+- **Changes:** Created `src/styles/global.css` with design tokens, `src/styles/print.css` with print rules, `src/layouts/BaseLayout.astro` with skip link and semantic structure, `src/components/Header.astro` with responsive mobile/desktop nav and `aria-current`, `src/components/Footer.astro` with TED attribution, `src/components/Breadcrumb.astro` with JSON-LD. Updated `src/pages/index.astro` to use BaseLayout. Installed Playwright and axe-core, created `tests/e2e/accessibility.spec.ts` with 5 passing tests. Updated CI pipeline with Playwright. Removed test-embed page.
+- **Commit:** `Phase 01: Base layout with responsive navigation, skip links, and accessibility CI`
 
 ---
 

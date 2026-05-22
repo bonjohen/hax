@@ -1,0 +1,59 @@
+@media print {
+  /* Hide navigation and interactive elements */
+  .skip-link,
+  header,
+  footer,
+  nav,
+  .no-print,
+  button,
+  details summary {
+    display: none !important;
+  }
+
+  /* Reset page for print */
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000;
+    background: #fff;
+  }
+
+  /* Ensure main content uses full width */
+  main {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Show URLs after links */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #555;
+  }
+
+  /* Prevent orphans/widows */
+  p, li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+  }
+
+  /* Expand all details elements */
+  details {
+    open: true;
+  }
+
+  details > *:not(summary) {
+    display: block !important;
+  }
+
+  /* Safe margins for US Letter and A4 */
+  @page {
+    margin: 2cm;
+  }
+}
