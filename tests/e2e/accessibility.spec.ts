@@ -63,6 +63,17 @@ test.describe('Accessibility', () => {
     expect(serious).toEqual([]);
   });
 
+  test('cluster hub page has no critical accessibility violations', async ({ page }) => {
+    await page.goto('/clusters/body/');
+    const results = await new AxeBuilder({ page })
+      .exclude('iframe')
+      .analyze();
+    const serious = results.violations.filter(
+      (v) => v.impact === 'critical' || v.impact === 'serious'
+    );
+    expect(serious).toEqual([]);
+  });
+
   test('mobile nav is keyboard accessible', async ({ page }) => {
     // Set mobile viewport
     await page.setViewportSize({ width: 375, height: 667 });

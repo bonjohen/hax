@@ -1,0 +1,198 @@
+---
+import { EVIDENCE_LABELS, EFFORT_LABELS } from '../lib/taxonomy';
+
+interface Props {
+  availableBehaviors: string[];
+  availableGoals: string[];
+  availableEvidenceLevels: string[];
+  availableTimeCosts: number[];
+  availableEfforts: string[];
+}
+
+const { availableBehaviors, availableGoals, availableEvidenceLevels, availableTimeCosts, availableEfforts } = Astro.props;
+
+function formatLabel(s: string): string {
+  return s.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+const evidenceLabelsMap: Record<string, string> = EVIDENCE_LABELS;
+const effortLabelsMap: Record<string, string> = EFFORT_LABELS;
+---
+
+<div class="filter-panel no-print">
+  <details class="filter-panel__mobile">
+    <summary>Filters</summary>
+    <div class="filter-groups">
+      {availableBehaviors.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>Behavior</legend>
+          {availableBehaviors.map((b) => (
+            <label class="filter-chip">
+              <input type="checkbox" name="behavior" value={b} />
+              <span>{formatLabel(b)}</span>
+            </label>
+          ))}
+        </fieldset>
+      )}
+
+      {availableGoals.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>Goal</legend>
+          {availableGoals.map((g) => (
+            <label class="filter-chip">
+              <input type="checkbox" name="goal" value={g} />
+              <span>{formatLabel(g)}</span>
+            </label>
+          ))}
+        </fieldset>
+      )}
+
+      {availableEvidenceLevels.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>Evidence Level</legend>
+          {availableEvidenceLevels.map((e) => (
+            <label class="filter-chip">
+              <input type="checkbox" name="evidence" value={e} />
+              <span>{evidenceLabelsMap[e] || formatLabel(e)}</span>
+            </label>
+          ))}
+        </fieldset>
+      )}
+
+      {availableEfforts.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>Effort</legend>
+          {availableEfforts.map((e) => (
+            <label class="filter-chip">
+              <input type="checkbox" name="effort" value={e} />
+              <span>{effortLabelsMap[e] || formatLabel(e)}</span>
+            </label>
+          ))}
+        </fieldset>
+      )}
+    </div>
+  </details>
+
+  <div class="filter-panel__desktop">
+    <h3 class="filter-heading">Filters</h3>
+    <div class="filter-groups">
+      {availableBehaviors.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>Behavior</legend>
+          {availableBehaviors.map((b) => (
+            <label class="filter-chip">
+              <input type="checkbox" name="behavior" value={b} />
+              <span>{formatLabel(b)}</span>
+            </label>
+          ))}
+        </fieldset>
+      )}
+
+      {availableGoals.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>Goal</legend>
+          {availableGoals.map((g) => (
+            <label class="filter-chip">
+              <input type="checkbox" name="goal" value={g} />
+              <span>{formatLabel(g)}</span>
+            </label>
+          ))}
+        </fieldset>
+      )}
+
+      {availableEvidenceLevels.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>Evidence Level</legend>
+          {availableEvidenceLevels.map((e) => (
+            <label class="filter-chip">
+              <input type="checkbox" name="evidence" value={e} />
+              <span>{evidenceLabelsMap[e] || formatLabel(e)}</span>
+            </label>
+          ))}
+        </fieldset>
+      )}
+
+      {availableEfforts.length > 0 && (
+        <fieldset class="filter-group">
+          <legend>Effort</legend>
+          {availableEfforts.map((e) => (
+            <label class="filter-chip">
+              <input type="checkbox" name="effort" value={e} />
+              <span>{effortLabelsMap[e] || formatLabel(e)}</span>
+            </label>
+          ))}
+        </fieldset>
+      )}
+    </div>
+  </div>
+</div>
+
+<style>
+  .filter-panel__desktop {
+    display: none;
+  }
+
+  .filter-panel__mobile summary {
+    cursor: pointer;
+    font-weight: 600;
+    padding: var(--space-3) 0;
+    font-size: var(--text-sm);
+  }
+
+  .filter-heading {
+    font-size: var(--text-lg);
+    margin: 0 0 var(--space-4);
+  }
+
+  .filter-groups {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .filter-group {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .filter-group legend {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    margin: 0 var(--space-1) var(--space-1) 0;
+    font-size: var(--text-xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .filter-chip:hover {
+    border-color: var(--color-link);
+  }
+
+  .filter-chip input {
+    margin: 0;
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  @media (min-width: 1024px) {
+    .filter-panel__mobile {
+      display: none;
+    }
+
+    .filter-panel__desktop {
+      display: block;
+    }
+  }
+</style>

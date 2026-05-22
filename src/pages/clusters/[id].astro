@@ -1,0 +1,261 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import ExperimentCard from '../../components/ExperimentCard.astro';
+import TalkCard from '../../components/TalkCard.astro';
+import FilterPanel from '../../components/FilterPanel.astro';
+
+export async function getStaticPaths() {
+  const clusters = await getCollection('clusters');
+  return clusters.map((cluster) => ({
+    params: { id: cluster.data.id },
+    props: { cluster },
+  }));
+}
+
+const { cluster } = Astro.props;
+const { Content } = await render(cluster);
+
+// Resolve hero experiments
+const heroExperiments = (await Promise.all(
+  cluster.data.hero_experiments.map((id: string) => getEntry('experiments', id))
+)).filter(Boolean);
+
+// Get all experiments and talks for this cluster
+const allExperiments = await getCollection('experiments');
+const clusterExperiments = allExperiments.filter((e) =>
+  e.data.clusters.includes(cluster.data.id)
+);
+
+const allTalks = await getCollection('talks');
+const clusterTalks = allTalks.filter((t) =>
+  t.data.clusters.includes(cluster.data.id)
+);
+
+// Resolve related clusters
+const relatedClusterEntries = (await Promise.all(
+  (cluster.data.related_clusters || []).map((id: string) => getEntry('clusters', id))
+)).filter(Boolean);
+
+// Collect unique filter values from cluster content
+const allBehaviors = [...new Set(
+  [...clusterExperiments.flatMap(e => e.data.behaviors), ...clusterTalks.flatMap(t => t.data.behaviors)]
+)].sort();
+const allGoals = [...new Set(
+  [...clusterExperiments.flatMap(e => e.data.goals), ...clusterTalks.flatMap(t => t.data.goals)]
+)].sort();
+const allEvidenceLevels = [...new Set(
+  [...clusterExperiments.map(e => e.data.evidence_level), ...clusterTalks.map(t => t.data.evidence_level)]
+)];
+const allEfforts = [...new Set(clusterExperiments.map(e => e.data.effort))];
+const allTimeCosts = [...new Set(clusterExperiments.map(e => e.data.time_cost_minutes))].sort((a, b) => a - b);
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Clusters', href: '/clusters/' },
+  { label: cluster.data.name, href: `/clusters/${cluster.data.id}/` },
+];
+---
+
+<BaseLayout
+  title={`${cluster.data.name} — Cluster`}
+  description={`Explore evidence-backed experiments and TED Talks in the ${cluster.data.name} cluster.`}
+>
+  <div class="container">
+    <Breadcrumb items={breadcrumbs} />
+
+    <header class="cluster-header">
+      <h1>{cluster.data.name}</h1>
+      <div class="cluster-intro">
+        <Content />
+      </div>
+    </header>
+
+    <div class="cluster-layout">
+      <div class="cluster-main">
+        {heroExperiments.length > 0 && (
+          <section class="start-here">
+            <h2>Start Here</h2>
+            <div class="start-here-strip">
+              {heroExperiments.map((exp) => (
+                <ExperimentCard
+                  slug={exp!.id}
+                  title={exp!.data.title}
+                  oneLineClaim={exp!.data.one_line_claim}
+                  evidenceLevel={exp!.data.evidence_level}
+                  timeCostMinutes={exp!.data.time_cost_minutes}
+                  effort={exp!.data.effort}
+                  clusters={exp!.data.clusters}
+                  behaviors={exp!.data.behaviors}
+                  goals={exp!.data.goals}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="experiments-section">
+          <h2>Experiments</h2>
+          <div class="card-grid" id="experiment-grid">
+            {clusterExperiments.map((exp) => (
+              <ExperimentCard
+                slug={exp.id}
+                title={exp.data.title}
+                oneLineClaim={exp.data.one_line_claim}
+                evidenceLevel={exp.data.evidence_level}
+                timeCostMinutes={exp.data.time_cost_minutes}
+                effort={exp.data.effort}
+                clusters={exp.data.clusters}
+                behaviors={exp.data.behaviors}
+                goals={exp.data.goals}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section class="talks-section">
+          <h2>Talks</h2>
+          <div class="card-grid" id="talk-grid">
+            {clusterTalks.map((talk) => (
+              <TalkCard
+                slug={talk.id}
+                title={talk.data.title}
+                speaker={talk.data.speaker}
+                thumbnail={talk.data.thumbnail}
+                evidenceLevel={talk.data.evidence_level}
+                clusters={talk.data.clusters}
+                behaviors={talk.data.behaviors}
+                goals={talk.data.goals}
+              />
+            ))}
+          </div>
+        </section>
+
+        {relatedClusterEntries.length > 0 && (
+          <section class="related-clusters">
+            <h2>Related Clusters</h2>
+            <div class="related-clusters-list">
+              {relatedClusterEntries.map((rc) => (
+                <a href={`/clusters/${rc!.data.id}/`} class="related-cluster-link">
+                  {rc!.data.name}
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+
+      <aside class="cluster-sidebar">
+        <FilterPanel
+          availableBehaviors={allBehaviors}
+          availableGoals={allGoals}
+          availableEvidenceLevels={allEvidenceLevels}
+          availableTimeCosts={allTimeCosts}
+          availableEfforts={allEfforts}
+        />
+      </aside>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .cluster-header {
+    padding: var(--space-8) 0 var(--space-4);
+  }
+
+  .cluster-header h1 {
+    margin-bottom: var(--space-4);
+  }
+
+  .cluster-intro {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: var(--content-width);
+  }
+
+  .cluster-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .start-here {
+    margin-bottom: var(--space-8);
+  }
+
+  .start-here h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .start-here-strip {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .start-here-strip :global(.experiment-card) {
+    border-color: var(--color-link);
+    border-width: 2px;
+  }
+
+  .experiments-section h2,
+  .talks-section h2,
+  .related-clusters h2 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  .related-clusters-list {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .related-cluster-link {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .related-cluster-link:hover {
+    border-color: var(--color-link);
+    color: var(--color-link);
+  }
+
+  @media (min-width: 640px) {
+    .start-here-strip {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .cluster-layout {
+      grid-template-columns: 1fr 16rem;
+    }
+
+    .start-here-strip {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .card-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

@@ -133,7 +133,7 @@ Open  ──>  Started  ──>  Completed
 | 02.11 | Completed | 2026-05-22 10:24 PM | 2026-05-22 10:25 PM | Extend `tests/e2e/navigation.spec.ts` — Playwright test: navigate to an experiment detail page, verify title, claim, instructions, evidence badge, source talks are present |
 | 02.12 | Completed | 2026-05-22 10:25 PM | 2026-05-22 10:26 PM | Extend `tests/e2e/accessibility.spec.ts` to scan talk detail and experiment detail pages |
 | 02.13 | Completed | 2026-05-22 10:26 PM | 2026-05-22 10:27 PM | Verify: every talk page has all required elements per US-003 acceptance criteria; every experiment page has all required elements per US-004; JSON-LD validates |
-| 02.14 | Started | 2026-05-22 10:27 PM | | Stage all changes and commit: "Phase 02: Talk and experiment detail pages with evidence badges, TED embeds, and structured data" |
+| 02.14 | Completed | 2026-05-22 10:27 PM | 2026-05-22 10:28 PM | Stage all changes and commit: "Phase 02: Talk and experiment detail pages with evidence badges, TED embeds, and structured data" |
 
 ### Phase 02 Summary
 
@@ -151,27 +151,25 @@ Open  ──>  Started  ──>  Completed
 
 | No | Status | Started (PST) | Completed (PST) | Description |
 |----|--------|---------------|------------------|-------------|
-| 03.01 | Open | | | Create `src/components/ExperimentCard.astro` with title, one-line claim, EvidenceBadge, time cost, effort, cluster tags as `data-*` attributes per PDR 4.6 |
-| 03.02 | Open | | | Create `src/components/TalkCard.astro` with title, speaker, thumbnail/placeholder, EvidenceBadge, cluster tags as `data-*` attributes per PDR 4.7 |
-| 03.03 | Open | | | Create `src/pages/clusters/[id].astro` — Cluster hub page: editorial intro from cluster content body, "Start here" experiment strip from `hero_experiments`, card grid of all matching talks and experiments |
-| 03.04 | Open | | | Implement responsive card grid layout: 1 column mobile, 2 tablet, 3 desktop |
-| 03.05 | Open | | | Implement "Related clusters" section with links to adjacent cluster hubs |
-| 03.06 | Open | | | Write cluster content files for all four clusters (body, cognition, environment, social) with editorial descriptions, hero experiments, canonical talks, and related clusters |
-| 03.07 | Open | | | Create `src/components/FilterPanel.astro` with checkbox/chip controls for behavior, goal, evidence level, time cost, effort per PDR 4.9 — renders as static HTML (interactive filtering in Phase 06) |
-| 03.08 | Open | | | Add FilterPanel to cluster hub page (collapsed on mobile, sidebar on desktop) |
-| 03.09 | Open | | | Add `data-behavior`, `data-goal`, `data-evidence`, `data-time`, `data-effort` attributes to ExperimentCard and TalkCard for future filter targeting |
-| 03.10 | Open | | | Verify cross-cluster content: a talk tagged `[body, social]` appears on both cluster hubs |
-| 03.11 | Open | | | Extend `tests/e2e/navigation.spec.ts` — navigate to each cluster hub, verify intro, "Start here" strip, and card grid are present |
-| 03.12 | Open | | | Extend `tests/e2e/accessibility.spec.ts` to scan cluster hub pages |
-| 03.13 | Open | | | Verify: this is the Minimum Useful Release — browsable clusters with evidence-labeled experiments and talks |
-| 03.14 | Open | | | Stage all changes and commit: "Phase 03: Cluster hubs with card grids — Minimum Useful Release" |
+| 03.01 | Completed | 2026-05-22 10:28 PM | 2026-05-22 10:30 PM | Create `src/components/ExperimentCard.astro` with title, one-line claim, EvidenceBadge, time cost, effort, cluster tags as `data-*` attributes per PDR 4.6 |
+| 03.02 | Completed | 2026-05-22 10:28 PM | 2026-05-22 10:30 PM | Create `src/components/TalkCard.astro` with title, speaker, thumbnail/placeholder, EvidenceBadge, cluster tags as `data-*` attributes per PDR 4.7 |
+| 03.03 | Completed | 2026-05-22 10:30 PM | 2026-05-22 10:32 PM | Create `src/pages/clusters/[id].astro` — Cluster hub page: editorial intro from cluster content body, "Start here" experiment strip from `hero_experiments`, card grid of all matching talks and experiments |
+| 03.04 | Completed | 2026-05-22 10:30 PM | 2026-05-22 10:32 PM | Implement responsive card grid layout: 1 column mobile, 2 tablet, 3 desktop |
+| 03.05 | Completed | 2026-05-22 10:30 PM | 2026-05-22 10:32 PM | Implement "Related clusters" section with links to adjacent cluster hubs |
+| 03.06 | Completed | 2026-05-22 10:28 PM | 2026-05-22 10:30 PM | Write cluster content files for all four clusters (body, cognition, environment, social) with editorial descriptions, hero experiments, canonical talks, and related clusters |
+| 03.07 | Completed | 2026-05-22 10:28 PM | 2026-05-22 10:30 PM | Create `src/components/FilterPanel.astro` with checkbox/chip controls for behavior, goal, evidence level, time cost, effort per PDR 4.9 — renders as static HTML (interactive filtering in Phase 06) |
+| 03.08 | Completed | 2026-05-22 10:30 PM | 2026-05-22 10:32 PM | Add FilterPanel to cluster hub page (collapsed on mobile, sidebar on desktop) |
+| 03.09 | Completed | 2026-05-22 10:28 PM | 2026-05-22 10:30 PM | Add `data-behavior`, `data-goal`, `data-evidence`, `data-time`, `data-effort` attributes to ExperimentCard and TalkCard for future filter targeting |
+| 03.10 | Completed | 2026-05-22 10:32 PM | 2026-05-22 10:33 PM | Verify cross-cluster content: a talk tagged `[body, social]` appears on both cluster hubs |
+| 03.11 | Completed | 2026-05-22 10:32 PM | 2026-05-22 10:33 PM | Extend `tests/e2e/navigation.spec.ts` — navigate to each cluster hub, verify intro, "Start here" strip, and card grid are present |
+| 03.12 | Completed | 2026-05-22 10:32 PM | 2026-05-22 10:33 PM | Extend `tests/e2e/accessibility.spec.ts` to scan cluster hub pages |
+| 03.13 | Completed | 2026-05-22 10:33 PM | 2026-05-22 10:34 PM | Verify: this is the Minimum Useful Release — browsable clusters with evidence-labeled experiments and talks |
+| 03.14 | Started | 2026-05-22 10:34 PM | | Stage all changes and commit: "Phase 03: Cluster hubs with card grids — Minimum Useful Release" |
 
 ### Phase 03 Summary
 
-_To be filled after completion._
-
-- **Changes:** TBD
-- **Commit:** TBD
+- **Changes:** Created `ExperimentCard.astro` and `TalkCard.astro` with data-* filter attributes, `FilterPanel.astro` with static checkbox filters, `clusters/[id].astro` hub page with editorial intro, Start Here strip, responsive card grids, and related clusters. Created cluster content for cognition, environment, social. Added 1 talk (Margaret Heffernan) and 1 experiment (Thinking Partner) for social cluster coverage. Fixed EvidenceBadge colors for WCAG AA compliance. Added 5 cluster hub e2e tests and accessibility scan. Total: 19 pages (4 cluster hubs, 7 experiments, 7 talks, 1 index).
+- **Commit:** `Phase 03: Cluster hubs with card grids — Minimum Useful Release`
 
 ---
 
