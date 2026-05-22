@@ -47,10 +47,14 @@ const pageTitle = title ? `${title} | HAx` : 'HAx — Human Advantage Experiment
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
-  <Header currentPath={Astro.url.pathname} />
+  <div data-pagefind-ignore>
+    <Header currentPath={Astro.url.pathname} />
+  </div>
   <main id="main-content" tabindex="-1">
     <slot />
   </main>
-  <Footer />
+  <div data-pagefind-ignore>
+    <Footer />
+  </div>
 </body>
 </html>

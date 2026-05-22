@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
+import SearchWidget from '../islands/SearchWidget';
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
@@ -13,24 +14,172 @@ const breadcrumbs = [
     <Breadcrumb items={breadcrumbs} />
     <div class="search-page">
       <h1>Search</h1>
-      <p class="search-hint">Full-text search will be available in an upcoming release. For now, browse by <a href="/clusters/body/">cluster</a> or <a href="/personas/knowledge-worker/">persona</a>.</p>
+      <SearchWidget client:idle />
+      <noscript>
+        <p class="noscript-msg">Search requires JavaScript. Browse by <a href="/clusters/">cluster</a> or <a href="/experiments/">experiment</a> instead.</p>
+      </noscript>
     </div>
   </div>
 </BaseLayout>
 
 <style>
+  h1 { margin-top: var(--space-8); margin-bottom: var(--space-6); }
   .search-page {
     max-width: var(--content-width);
-    padding: var(--space-12) 0;
-    text-align: center;
-    margin: 0 auto;
+    padding-bottom: var(--space-16);
   }
-  .search-page h1 {
-    margin-bottom: var(--space-4);
-  }
-  .search-hint {
+  .noscript-msg {
     color: var(--color-text-muted);
     font-size: var(--text-lg);
+    margin-top: var(--space-6);
+  }
+
+  /* Search widget styles (global since island is a Preact component) */
+  .search-page :global(.search-input-wrap) {
+    position: relative;
+    margin-bottom: var(--space-6);
+  }
+  .search-page :global(.search-icon) {
+    position: absolute;
+    left: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    pointer-events: none;
+  }
+  .search-page :global(.search-input) {
+    width: 100%;
+    padding: var(--space-4) var(--space-4) var(--space-4) calc(var(--space-4) + 28px);
+    font-size: var(--text-lg);
+    font-family: var(--font-sans);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-raised);
+    color: var(--color-text);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .search-page :global(.search-input:focus) {
+    outline: none;
+    border-color: var(--color-link);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+  }
+  .search-page :global(.search-input::placeholder) {
+    color: var(--color-text-muted);
+  }
+  .search-page :global(.search-spinner) {
+    position: absolute;
+    right: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid var(--color-border);
+    border-top-color: var(--color-link);
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+
+  .search-page :global(.search-results) {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .search-page :global(.search-result) {
+    margin-bottom: var(--space-3);
+  }
+  .search-page :global(.result-link) {
+    display: block;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+  }
+  .search-page :global(.result-link:hover) {
+    border-color: var(--color-link);
+    box-shadow: var(--shadow-md);
+    color: var(--color-text);
+  }
+  .search-page :global(.result-header) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-1);
+  }
+  .search-page :global(.result-title) {
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-base);
+  }
+  .search-page :global(.result-type) {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+  }
+  .search-page :global(.result-type--talk) {
+    background: #e3f0ff;
+    color: #0b4f9e;
+  }
+  .search-page :global(.result-type--experiment) {
+    background: #e8f5e9;
+    color: #1b6e2d;
+  }
+  .search-page :global(.result-type--cluster) {
+    background: #f3e8ff;
+    color: #6b21a8;
+  }
+  .search-page :global(.result-excerpt) {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 0;
     line-height: var(--leading-relaxed);
+  }
+  .search-page :global(.result-excerpt mark) {
+    background: #fef3c7;
+    color: var(--color-text);
+    border-radius: 2px;
+    padding: 0 2px;
+  }
+
+  .search-page :global(.search-empty) {
+    text-align: center;
+    padding: var(--space-8) 0;
+  }
+  .search-page :global(.search-empty-title) {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+    margin-bottom: var(--space-2);
+  }
+  .search-page :global(.search-empty-hint) {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+  .search-page :global(.search-empty-links) {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .search-page :global(.search-empty-links a) {
+    padding: var(--space-2) var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-link);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+  .search-page :global(.search-empty-links a:hover) {
+    background: var(--color-link);
+    color: var(--color-text-inverse);
+    border-color: var(--color-link);
   }
 </style>

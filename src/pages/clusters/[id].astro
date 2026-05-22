@@ -65,7 +65,7 @@ const breadcrumbs = [
   <div class="container">
     <Breadcrumb items={breadcrumbs} />
 
-    <header class="cluster-header">
+    <header class="cluster-header" data-pagefind-body data-pagefind-meta="type:cluster">
       <h1>{cluster.data.name}</h1>
       <div class="cluster-intro">
         <Content />
@@ -73,7 +73,7 @@ const breadcrumbs = [
     </header>
 
     <div class="cluster-layout">
-      <div class="cluster-main">
+      <div class="cluster-main" data-pagefind-ignore>
         {heroExperiments.length > 0 && (
           <section class="start-here">
             <h2>Start Here</h2>

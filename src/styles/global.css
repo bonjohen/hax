@@ -10,9 +10,9 @@
   --color-text: #1a1a2e;
   --color-text-muted: #555b67;
   --color-text-inverse: #ffffff;
-  --color-link: #4361ee;
+  --color-link: #3b53d9;
   --color-link-hover: #3a0ca3;
-  --color-focus: #4361ee;
+  --color-focus: #3b53d9;
   --color-accent: #f72585;
   --color-accent-soft: #fce4ec;
 
@@ -38,7 +38,7 @@
 
   /* Gradients */
   --gradient-hero: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  --gradient-accent: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+  --gradient-accent: linear-gradient(135deg, #3b53d9 0%, #3a0ca3 100%);
   --gradient-warm: linear-gradient(135deg, #f72585 0%, #7209b7 100%);
 
   /* Typography */

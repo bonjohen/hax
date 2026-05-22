@@ -27,11 +27,12 @@ test.describe('Accessibility', () => {
     await expect(main).toBeFocused();
   });
 
-  test('breadcrumb renders Home on index page', async ({ page }) => {
-    await page.goto('/');
+  test('breadcrumb renders on content pages', async ({ page }) => {
+    await page.goto('/about/');
     const breadcrumb = page.locator('nav[aria-label="Breadcrumb"]');
     await expect(breadcrumb).toBeVisible();
     await expect(breadcrumb).toContainText('Home');
+    await expect(breadcrumb).toContainText('About');
   });
 
   test('footer displays TED attribution and non-commercial notice', async ({ page }) => {
@@ -68,6 +69,15 @@ test.describe('Accessibility', () => {
     const results = await new AxeBuilder({ page })
       .exclude('iframe')
       .analyze();
+    const serious = results.violations.filter(
+      (v) => v.impact === 'critical' || v.impact === 'serious'
+    );
+    expect(serious).toEqual([]);
+  });
+
+  test('search page has no critical accessibility violations', async ({ page }) => {
+    await page.goto('/search/');
+    const results = await new AxeBuilder({ page }).analyze();
     const serious = results.violations.filter(
       (v) => v.impact === 'critical' || v.impact === 'serious'
     );

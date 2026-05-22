@@ -8,19 +8,20 @@ interface Props {
   breadcrumbs: Array<{ label: string; href: string }>;
   lastReviewed: Date;
   structuredData: object;
+  pagefindMeta?: string;
 }
 
-const { title, description, breadcrumbs, lastReviewed, structuredData } = Astro.props;
+const { title, description, breadcrumbs, lastReviewed, structuredData, pagefindMeta } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} structuredData={structuredData}>
   <div class="container">
     <Breadcrumb items={breadcrumbs} />
     <div class="content-layout">
-      <article class="content-main">
+      <article class="content-main" data-pagefind-body {...(pagefindMeta ? { 'data-pagefind-meta': pagefindMeta } : {})}>
         <slot />
       </article>
-      <aside class="content-sidebar">
+      <aside class="content-sidebar" data-pagefind-ignore>
         <slot name="sidebar" />
       </aside>
     </div>
