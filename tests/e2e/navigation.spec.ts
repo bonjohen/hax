@@ -145,3 +145,32 @@ test.describe('Cluster Hub Pages', () => {
     await expect(page.locator('.filter-panel__desktop')).toBeVisible();
   });
 });
+
+test.describe('Persona Dashboards', () => {
+  test('knowledge-worker persona renders goals and experiments', async ({ page }) => {
+    await page.goto('/personas/knowledge-worker/');
+    await expect(page.locator('h1')).toContainText('Work Better');
+    // Has recommended experiments
+    const cards = page.locator('.experiment-card');
+    await expect(cards.first()).toBeVisible();
+    const count = await cards.count();
+    expect(count).toBeGreaterThanOrEqual(2);
+    // Has recommended cluster links
+    await expect(page.locator('.cluster-link').first()).toBeVisible();
+  });
+
+  test('all three persona dashboards are accessible', async ({ page }) => {
+    for (const id of ['knowledge-worker', 'student', 'team-lead']) {
+      const response = await page.goto(`/personas/${id}/`);
+      expect(response?.status()).toBe(200);
+      await expect(page.locator('h1')).toBeVisible();
+    }
+  });
+
+  test('personas reference multiple clusters', async ({ page }) => {
+    await page.goto('/personas/knowledge-worker/');
+    const clusterLinks = page.locator('.cluster-link');
+    const count = await clusterLinks.count();
+    expect(count).toBeGreaterThanOrEqual(2);
+  });
+});

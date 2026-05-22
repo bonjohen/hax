@@ -75,6 +75,15 @@ test.describe('Accessibility', () => {
     expect(serious).toEqual([]);
   });
 
+  test('persona dashboard has no critical accessibility violations', async ({ page }) => {
+    await page.goto('/personas/knowledge-worker/');
+    const results = await new AxeBuilder({ page }).analyze();
+    const serious = results.violations.filter(
+      (v) => v.impact === 'critical' || v.impact === 'serious'
+    );
+    expect(serious).toEqual([]);
+  });
+
   test('search page has no critical accessibility violations', async ({ page }) => {
     await page.goto('/search/');
     const results = await new AxeBuilder({ page }).analyze();
