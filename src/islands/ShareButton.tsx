@@ -1,3 +1,4 @@
+/** @jsxImportSource preact */
 import { useState, useCallback } from 'preact/hooks';
 
 export default function ShareButton() {

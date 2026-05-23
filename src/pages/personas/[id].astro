@@ -24,13 +24,13 @@ const breadcrumbs = [
 const experiments = await Promise.all(
   persona.data.recommended_experiments.map((id: string) => getEntry('experiments', id))
 );
-const resolvedExperiments = experiments.filter(Boolean);
+const resolvedExperiments = experiments.filter((e): e is NonNullable<typeof e> => Boolean(e));
 
 // Resolve recommended clusters
 const clusters = await Promise.all(
   persona.data.recommended_clusters.map((id: string) => getEntry('clusters', id))
 );
-const resolvedClusters = clusters.filter(Boolean);
+const resolvedClusters = clusters.filter((c): c is NonNullable<typeof c> => Boolean(c));
 
 const siteUrl = import.meta.env.SITE || 'https://hax.example.com';
 const structuredData = collectionPageJsonLd(

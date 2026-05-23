@@ -20,8 +20,9 @@ const clusterColors: Record<string, string> = {
 };
 
 function countForCluster(id: string) {
-  const expCount = experiments.filter(e => e.data.clusters.includes(id)).length;
-  const talkCount = talks.filter(t => t.data.clusters.includes(id)).length;
+  const clusterId = id as 'body' | 'cognition' | 'environment' | 'social';
+  const expCount = experiments.filter(e => e.data.clusters.includes(clusterId)).length;
+  const talkCount = talks.filter(t => t.data.clusters.includes(clusterId)).length;
   return { expCount, talkCount };
 }
 ---

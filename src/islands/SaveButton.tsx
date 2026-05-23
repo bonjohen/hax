@@ -1,3 +1,4 @@
+/** @jsxImportSource preact */
 import { useState, useCallback, useEffect } from 'preact/hooks';
 import { isSaved, saveExperiment, removeExperiment, isLocalStorageAvailable } from '../lib/saved';
 

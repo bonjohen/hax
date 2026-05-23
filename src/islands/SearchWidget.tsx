@@ -1,3 +1,4 @@
+/** @jsxImportSource preact */
 import { useEffect, useRef, useState, useCallback } from 'preact/hooks';
 
 interface SearchResult {
