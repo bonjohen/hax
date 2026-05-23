@@ -170,18 +170,18 @@ test.describe('Landing Page', () => {
     // Search link
     const searchLink = page.locator('.search-link');
     await expect(searchLink).toBeVisible();
-    await expect(searchLink).toHaveAttribute('href', '/hax/search/');
+    await expect(searchLink).toHaveAttribute('href', '/search/');
 
     // Methodology ribbon
     const ribbon = page.locator('.methodology-ribbon');
     await expect(ribbon).toBeVisible();
-    await expect(ribbon.locator('a[href="/hax/about/"]')).toBeVisible();
+    await expect(ribbon.locator('a[href="/about/"]')).toBeVisible();
   });
 
   test('cluster cards link to correct hub pages', async ({ page }) => {
     await page.goto('');
     for (const id of ['body', 'cognition', 'environment', 'social']) {
-      const link = page.locator(`.cluster-card[href="/hax/clusters/${id}/"]`);
+      const link = page.locator(`.cluster-card[href="/clusters/${id}/"]`);
       await expect(link).toBeVisible();
     }
   });
@@ -189,7 +189,7 @@ test.describe('Landing Page', () => {
   test('persona cards link to correct dashboard pages', async ({ page }) => {
     await page.goto('');
     for (const id of ['knowledge-worker', 'student', 'team-lead']) {
-      const link = page.locator(`.persona-card[href="/hax/personas/${id}/"]`);
+      const link = page.locator(`.persona-card[href="/personas/${id}/"]`);
       await expect(link).toBeVisible();
     }
   });

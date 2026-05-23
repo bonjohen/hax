@@ -7,8 +7,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   output: 'static',
   integrations: [preact(), sitemap()],
-  site: 'https://bonjohen.github.io',
-  base: '/hax',
+  site: 'https://hax.johnboen.com',
   vite: {
     build: {
       rollupOptions: {
