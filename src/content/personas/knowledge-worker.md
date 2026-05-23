@@ -9,6 +9,9 @@ recommended_experiments:
   - stress-reframe
   - power-pose
   - walking-meeting
+  - flow-state-trigger
+  - desk-declutter
+  - fear-setting
 ---
 
 ## Your Goals

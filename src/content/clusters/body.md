@@ -5,10 +5,14 @@ hero_experiments:
   - power-pose
   - walking-meeting
   - stress-reframe
+  - exercise-brain-boost
+  - sleep-wind-down
 canonical_talks:
   - amy-cuddy-body-language
   - kelly-mcgonigal-stress
   - marily-oppezzo-walking
+  - matt-walker-sleep
+  - wendy-suzuki-exercise-brain
 related_clusters:
   - cognition
   - environment

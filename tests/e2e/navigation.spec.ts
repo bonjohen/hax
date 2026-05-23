@@ -100,7 +100,7 @@ test.describe('Cluster Hub Pages', () => {
     // Start here strip
     const startHere = page.locator('.start-here');
     await expect(startHere).toBeVisible();
-    await expect(startHere.locator('.experiment-card')).toHaveCount(3);
+    await expect(startHere.locator('.experiment-card')).toHaveCount(5);
 
     // Card grids
     await expect(page.locator('#experiment-grid .experiment-card').first()).toBeVisible();

@@ -5,10 +5,14 @@ hero_experiments:
   - walking-meeting
   - solitude-break
   - ten-minute-meditation
+  - desk-declutter
+  - joy-audit
 canonical_talks:
   - marily-oppezzo-walking
   - susan-cain-introverts
   - andy-puddicombe-meditation
+  - graham-hill-less-stuff
+  - ingrid-fetell-lee-joy
 related_clusters:
   - body
   - cognition

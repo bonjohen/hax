@@ -3,12 +3,16 @@ id: social
 name: "Social"
 hero_experiments:
   - gratitude-journal
-  - solitude-break
   - thinking-partner
+  - active-listening
+  - vulnerability-share
+  - psychological-safety-checkin
 canonical_talks:
   - susan-cain-introverts
   - shawn-achor-happiness
   - margaret-heffernan-dare-disagree
+  - amy-edmondson-psychological-safety
+  - brene-brown-vulnerability
 related_clusters:
   - cognition
   - environment

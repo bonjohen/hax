@@ -5,10 +5,14 @@ hero_experiments:
   - stress-reframe
   - gratitude-journal
   - ten-minute-meditation
+  - growth-mindset-self-talk
+  - fear-setting
 canonical_talks:
   - kelly-mcgonigal-stress
   - shawn-achor-happiness
   - andy-puddicombe-meditation
+  - carol-dweck-growth-mindset
+  - angela-duckworth-grit
 related_clusters:
   - body
   - social

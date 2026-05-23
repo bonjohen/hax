@@ -10,6 +10,9 @@ recommended_experiments:
   - stress-reframe
   - power-pose
   - walking-meeting
+  - psychological-safety-checkin
+  - active-listening
+  - five-minute-give
 ---
 
 ## Your Goals

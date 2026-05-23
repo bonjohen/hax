@@ -10,6 +10,8 @@ recommended_experiments:
   - ten-minute-meditation
   - gratitude-journal
   - solitude-break
+  - growth-mindset-self-talk
+  - exercise-brain-boost
 ---
 
 ## Your Goals
