@@ -7,7 +7,8 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   output: 'static',
   integrations: [preact(), sitemap()],
-  site: process.env.SITE_URL || 'https://hax.example.com',
+  // Set SITE_URL in GitHub Actions env, or update the default when your GitHub Pages URL is known
+  site: process.env.SITE_URL || 'https://example.github.io/hax',
   vite: {
     build: {
       rollupOptions: {

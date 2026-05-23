@@ -365,6 +365,31 @@ _To be filled after completion._
 
 ---
 
+## Phase 10: Migrate from Cloudflare Pages to GitHub Pages
+
+**Goal:** Remove all Cloudflare-specific configuration and deploy via GitHub Pages with equivalent functionality.
+**Depends on:** Phase 09.
+**PDR sections:** 1.2
+**User stories:** US-026
+
+| No | Status | Started (PST) | Completed (PST) | Description |
+|----|--------|---------------|------------------|-------------|
+| 10.01 | Completed | 2026-05-22 05:25 PM | 2026-05-22 05:26 PM | Delete `public/_headers` and add CSP `<meta>` tag to `src/layouts/BaseLayout.astro` |
+| 10.02 | Completed | 2026-05-22 05:26 PM | 2026-05-22 05:27 PM | Create `.github/workflows/deploy.yml` with GitHub Pages deployment via `actions/deploy-pages` |
+| 10.03 | Completed | 2026-05-22 05:27 PM | 2026-05-22 05:27 PM | Update `astro.config.mjs`: set `site` and optionally `base` for GitHub Pages URL |
+| 10.04 | Completed | 2026-05-22 05:27 PM | 2026-05-22 05:28 PM | Update `public/robots.txt` sitemap URL to match GitHub Pages domain |
+| 10.05 | Completed | 2026-05-22 05:28 PM | 2026-05-22 05:28 PM | Remove all Cloudflare references from SDLC docs — editorial cleanup only |
+| 10.06 | Completed | 2026-05-22 05:28 PM | 2026-05-22 05:29 PM | Update `CLAUDE.md` to reflect GitHub Pages as the hosting platform |
+| 10.07 | Completed | 2026-05-22 05:29 PM | 2026-05-22 05:30 PM | Run `npm run build` and `npx playwright test` — verify zero regressions |
+| 10.08 | Completed | 2026-05-22 05:30 PM | 2026-05-22 05:31 PM | Stage and commit: "Phase 10: Migrate from Cloudflare Pages to GitHub Pages" |
+
+### Phase 10 Summary
+
+- **Changes:** Deleted `public/_headers` (Cloudflare-specific). Added CSP `<meta>` tag to BaseLayout. Created `.github/workflows/deploy.yml` for GitHub Pages deployment. Updated `astro.config.mjs` site URL. Simplified `robots.txt`. Updated `CLAUDE.md` with current project state and GitHub Pages hosting.
+- **Commit:** `Phase 10: Migrate from Cloudflare Pages to GitHub Pages`
+
+---
+
 ## Coverage Checklist
 
 _Every PDR component appears in at least one phase task._
