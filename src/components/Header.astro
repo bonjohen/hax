@@ -4,29 +4,30 @@ interface Props {
 }
 
 const { currentPath } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const navLinks = [
-  { label: 'Clusters', href: '/clusters/', children: [
-    { label: 'Body', href: '/clusters/body/' },
-    { label: 'Cognition', href: '/clusters/cognition/' },
-    { label: 'Environment', href: '/clusters/environment/' },
-    { label: 'Social', href: '/clusters/social/' },
+  { label: 'Clusters', href: `${base}/clusters/`, children: [
+    { label: 'Body', href: `${base}/clusters/body/` },
+    { label: 'Cognition', href: `${base}/clusters/cognition/` },
+    { label: 'Environment', href: `${base}/clusters/environment/` },
+    { label: 'Social', href: `${base}/clusters/social/` },
   ]},
-  { label: 'Personas', href: '/personas/' },
-  { label: 'Search', href: '/search/' },
-  { label: 'About', href: '/about/' },
-  { label: 'Saved', href: '/saved/' },
+  { label: 'Personas', href: `${base}/personas/` },
+  { label: 'Search', href: `${base}/search/` },
+  { label: 'About', href: `${base}/about/` },
+  { label: 'Saved', href: `${base}/saved/` },
 ];
 
 function isActive(href: string): boolean {
-  if (href === '/') return currentPath === '/';
+  if (href === `${base}/`) return currentPath === href;
   return currentPath.startsWith(href);
 }
 ---
 
 <header class="site-header no-print">
   <div class="container header-inner">
-    <a href="/" class="site-title">HAx</a>
+    <a href={`${base}/`} class="site-title">HAx</a>
 
     <details class="mobile-nav">
       <summary aria-label="Toggle navigation menu">

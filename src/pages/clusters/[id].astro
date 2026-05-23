@@ -59,6 +59,7 @@ const breadcrumbs = [
   { label: cluster.data.name, href: `/clusters/${cluster.data.id}/` },
 ];
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const siteUrl = import.meta.env.SITE || 'https://hax.example.com';
 const structuredData = clusterJsonLd(
   cluster.data,
@@ -150,7 +151,7 @@ const structuredData = clusterJsonLd(
             <h2>Related Clusters</h2>
             <div class="related-clusters-list">
               {relatedClusterEntries.map((rc) => (
-                <a href={`/clusters/${rc!.data.id}/`} class="related-cluster-link">
+                <a href={`${base}/clusters/${rc!.data.id}/`} class="related-cluster-link">
                   {rc!.data.name}
                 </a>
               ))}

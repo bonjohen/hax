@@ -15,6 +15,7 @@ export async function getStaticPaths() {
 const { talk } = Astro.props;
 const { Content } = await render(talk);
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const siteUrl = import.meta.env.SITE_URL || 'https://hax.example.com';
 const structuredData = talkJsonLd(talk, siteUrl);
 
@@ -100,7 +101,7 @@ const breadcrumbs = [
         <ul class="sidebar-list">
           {relatedExperiments.filter(Boolean).map((exp) => (
             <li>
-              <a href={`/experiments/${exp!.id}/`}>{exp!.data.title}</a>
+              <a href={`${base}/experiments/${exp!.id}/`}>{exp!.data.title}</a>
               <p class="sidebar-claim">{exp!.data.one_line_claim}</p>
             </li>
           ))}

@@ -15,10 +15,11 @@ interface Props {
 }
 
 const { slug, title, oneLineClaim, evidenceLevel, timeCostMinutes, effort, clusters, behaviors, goals } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <a
-  href={`/experiments/${slug}/`}
+  href={`${base}/experiments/${slug}/`}
   class="experiment-card"
   data-clusters={clusters.join(',')}
   data-behavior={behaviors.join(',')}

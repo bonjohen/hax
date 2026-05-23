@@ -13,6 +13,7 @@ export async function getStaticPaths() {
 const { persona } = Astro.props;
 const { Content } = await render(persona);
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Personas', href: '/personas/' },
@@ -77,7 +78,7 @@ const structuredData = collectionPageJsonLd(
           <h2>Related Clusters</h2>
           <div class="cluster-links">
             {resolvedClusters.map((c) => (
-              <a href={`/clusters/${c.data.id}/`} class="cluster-link">{c.data.name}</a>
+              <a href={`${base}/clusters/${c.data.id}/`} class="cluster-link">{c.data.name}</a>
             ))}
           </div>
         </section>

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Print Layout', () => {
   test('experiment page hides nav and footer in print', async ({ page }) => {
-    await page.goto('/experiments/power-pose/');
+    await page.goto('experiments/power-pose/');
 
     // Emulate print media
     await page.emulateMedia({ media: 'print' });
@@ -13,7 +13,7 @@ test.describe('Print Layout', () => {
   });
 
   test('print button is hidden in print media', async ({ page }) => {
-    await page.goto('/experiments/power-pose/');
+    await page.goto('experiments/power-pose/');
     await page.emulateMedia({ media: 'print' });
 
     // Print button has no-print class
@@ -22,7 +22,7 @@ test.describe('Print Layout', () => {
   });
 
   test('evidence details element exists for print', async ({ page }) => {
-    await page.goto('/experiments/power-pose/');
+    await page.goto('experiments/power-pose/');
 
     // Verify evidence details section exists (will be expanded by print dialog JS)
     const details = page.locator('.evidence-details');

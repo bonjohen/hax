@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import SearchWidget from '../islands/SearchWidget';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Search', href: '/search/' },
@@ -14,9 +15,9 @@ const breadcrumbs = [
     <Breadcrumb items={breadcrumbs} />
     <div class="search-page">
       <h1>Search</h1>
-      <SearchWidget client:idle />
+      <SearchWidget client:idle basePath={base} />
       <noscript>
-        <p class="noscript-msg">Search requires JavaScript. Browse by <a href="/clusters/">cluster</a> or <a href="/experiments/">experiment</a> instead.</p>
+        <p class="noscript-msg">Search requires JavaScript. Browse by <a href={`${base}/clusters/`}>cluster</a> or <a href={`${base}/experiments/`}>experiment</a> instead.</p>
       </noscript>
     </div>
   </div>

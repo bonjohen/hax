@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import SaveManager from '../islands/SaveManager';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Saved', href: '/saved/' },
@@ -14,9 +15,9 @@ const breadcrumbs = [
     <Breadcrumb items={breadcrumbs} />
     <div class="saved-page">
       <h1>Saved Experiments</h1>
-      <SaveManager client:idle />
+      <SaveManager client:idle basePath={base} />
       <noscript>
-        <p class="noscript-msg">Saving experiments requires JavaScript. Browse <a href="/experiments/">all experiments</a> instead.</p>
+        <p class="noscript-msg">Saving experiments requires JavaScript. Browse <a href={`${base}/experiments/`}>all experiments</a> instead.</p>
       </noscript>
     </div>
   </div>

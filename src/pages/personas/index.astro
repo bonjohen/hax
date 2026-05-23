@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const personas = await getCollection('personas');
 const breadcrumbs = [
   { label: 'Home', href: '/' },
@@ -17,7 +18,7 @@ const breadcrumbs = [
     <p class="lead">Not sure where to start? Pick the persona closest to your goals.</p>
     <div class="persona-grid">
       {personas.map((p) => (
-        <a href={`/personas/${p.data.id}/`} class="persona-link">
+        <a href={`${base}/personas/${p.data.id}/`} class="persona-link">
           <h2>{p.data.persona_name}</h2>
           <p>{p.data.recommended_clusters.length} clusters &middot; {p.data.recommended_experiments.length} experiments</p>
         </a>

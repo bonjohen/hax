@@ -12,7 +12,11 @@ const typeLabels: Record<string, string> = {
   cluster: 'Cluster',
 };
 
-export default function SearchWidget() {
+interface Props {
+  basePath?: string;
+}
+
+export default function SearchWidget({ basePath = '/' }: Props) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searched, setSearched] = useState(false);
@@ -24,7 +28,7 @@ export default function SearchWidget() {
   const loadPagefind = useCallback(async () => {
     if (pagefindRef.current) return pagefindRef.current;
     try {
-      const pf = await import(/* @vite-ignore */ '/pagefind/pagefind.js');
+      const pf = await import(/* @vite-ignore */ `${basePath}/pagefind/pagefind.js`);
       await pf.init();
       pagefindRef.current = pf;
       return pf;
@@ -101,9 +105,9 @@ export default function SearchWidget() {
           <p class="search-empty-title">No results for &ldquo;{query}&rdquo;</p>
           <p class="search-empty-hint">Try different keywords, check your spelling, or browse by topic:</p>
           <div class="search-empty-links">
-            <a href="/clusters/">Browse Clusters</a>
-            <a href="/experiments/">All Experiments</a>
-            <a href="/talks/">All Talks</a>
+            <a href={`${basePath}/clusters/`}>Browse Clusters</a>
+            <a href={`${basePath}/experiments/`}>All Experiments</a>
+            <a href={`${basePath}/talks/`}>All Talks</a>
           </div>
         </div>
       )}

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Talk Detail Pages', () => {
   test('talk page renders all required elements', async ({ page }) => {
-    await page.goto('/talks/amy-cuddy-body-language/');
+    await page.goto('talks/amy-cuddy-body-language/');
 
     // Title
     await expect(page.locator('h1')).toContainText('Your body language may shape who you are');
@@ -36,7 +36,7 @@ test.describe('Talk Detail Pages', () => {
   });
 
   test('talk page has transcript link', async ({ page }) => {
-    await page.goto('/talks/amy-cuddy-body-language/');
+    await page.goto('talks/amy-cuddy-body-language/');
     const transcriptLink = page.locator('a:has-text("Read transcript")');
     await expect(transcriptLink).toBeVisible();
     await expect(transcriptLink).toHaveAttribute('target', '_blank');
@@ -45,7 +45,7 @@ test.describe('Talk Detail Pages', () => {
 
 test.describe('Experiment Detail Pages', () => {
   test('experiment page renders all required elements', async ({ page }) => {
-    await page.goto('/experiments/power-pose/');
+    await page.goto('experiments/power-pose/');
 
     // Title
     await expect(page.locator('h1')).toContainText('Two-Minute Power Pose');
@@ -81,7 +81,7 @@ test.describe('Experiment Detail Pages', () => {
   });
 
   test('experiment page shows contraindications when present', async ({ page }) => {
-    await page.goto('/experiments/power-pose/');
+    await page.goto('experiments/power-pose/');
     const contra = page.locator('.contraindications');
     await expect(contra).toBeVisible();
     await expect(contra).toContainText('Not recommended as a substitute');
@@ -90,7 +90,7 @@ test.describe('Experiment Detail Pages', () => {
 
 test.describe('Cluster Hub Pages', () => {
   test('body cluster hub renders intro, start here, and card grid', async ({ page }) => {
-    await page.goto('/clusters/body/');
+    await page.goto('clusters/body/');
 
     await expect(page.locator('h1')).toContainText('Body');
 
@@ -114,7 +114,7 @@ test.describe('Cluster Hub Pages', () => {
 
   test('all four cluster hubs are accessible', async ({ page }) => {
     for (const id of ['body', 'cognition', 'environment', 'social']) {
-      await page.goto(`/clusters/${id}/`);
+      await page.goto(`clusters/${id}/`);
       await expect(page.locator('h1')).toBeVisible();
       await expect(page.locator('.start-here')).toBeVisible();
       await expect(page.locator('#experiment-grid')).toBeVisible();
@@ -123,7 +123,7 @@ test.describe('Cluster Hub Pages', () => {
   });
 
   test('related clusters section shows links', async ({ page }) => {
-    await page.goto('/clusters/body/');
+    await page.goto('clusters/body/');
     const related = page.locator('.related-clusters');
     await expect(related).toBeVisible();
     await expect(related.locator('a')).toHaveCount(2); // cognition, environment
@@ -131,15 +131,15 @@ test.describe('Cluster Hub Pages', () => {
 
   test('cross-cluster content appears on multiple hubs', async ({ page }) => {
     // Kelly McGonigal is tagged [cognition, body]
-    await page.goto('/clusters/body/');
+    await page.goto('clusters/body/');
     await expect(page.locator('#talk-grid')).toContainText('How to make stress your friend');
 
-    await page.goto('/clusters/cognition/');
+    await page.goto('clusters/cognition/');
     await expect(page.locator('#talk-grid')).toContainText('How to make stress your friend');
   });
 
   test('filter panel is visible', async ({ page }) => {
-    await page.goto('/clusters/body/');
+    await page.goto('clusters/body/');
     // On desktop, filter panel desktop section should be visible
     await page.setViewportSize({ width: 1280, height: 800 });
     await expect(page.locator('.filter-panel__desktop')).toBeVisible();
@@ -148,7 +148,7 @@ test.describe('Cluster Hub Pages', () => {
 
 test.describe('Landing Page', () => {
   test('landing page renders hero, clusters, featured, personas, search, and methodology', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('');
 
     // Hero section
     await expect(page.locator('.hero')).toBeVisible();
@@ -170,26 +170,26 @@ test.describe('Landing Page', () => {
     // Search link
     const searchLink = page.locator('.search-link');
     await expect(searchLink).toBeVisible();
-    await expect(searchLink).toHaveAttribute('href', '/search/');
+    await expect(searchLink).toHaveAttribute('href', '/hax/search/');
 
     // Methodology ribbon
     const ribbon = page.locator('.methodology-ribbon');
     await expect(ribbon).toBeVisible();
-    await expect(ribbon.locator('a[href="/about/"]')).toBeVisible();
+    await expect(ribbon.locator('a[href="/hax/about/"]')).toBeVisible();
   });
 
   test('cluster cards link to correct hub pages', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('');
     for (const id of ['body', 'cognition', 'environment', 'social']) {
-      const link = page.locator(`.cluster-card[href="/clusters/${id}/"]`);
+      const link = page.locator(`.cluster-card[href="/hax/clusters/${id}/"]`);
       await expect(link).toBeVisible();
     }
   });
 
   test('persona cards link to correct dashboard pages', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('');
     for (const id of ['knowledge-worker', 'student', 'team-lead']) {
-      const link = page.locator(`.persona-card[href="/personas/${id}/"]`);
+      const link = page.locator(`.persona-card[href="/hax/personas/${id}/"]`);
       await expect(link).toBeVisible();
     }
   });
@@ -197,7 +197,7 @@ test.describe('Landing Page', () => {
 
 test.describe('About Page', () => {
   test('about page renders evidence rubric table', async ({ page }) => {
-    await page.goto('/about/');
+    await page.goto('about/');
     await expect(page.locator('h1')).toContainText('About HAx');
 
     // Evidence table with 5 levels
@@ -215,7 +215,7 @@ test.describe('About Page', () => {
   });
 
   test('about page has legal notes with TED attribution and CC BY-NC-ND', async ({ page }) => {
-    await page.goto('/about/');
+    await page.goto('about/');
     const article = page.locator('article');
     await expect(article).toContainText('not affiliated with TED');
     await expect(article).toContainText('CC BY-NC-ND');
@@ -225,7 +225,7 @@ test.describe('About Page', () => {
 
 test.describe('Resources Page', () => {
   test('resources page groups by type', async ({ page }) => {
-    await page.goto('/resources/');
+    await page.goto('resources/');
     await expect(page.locator('h1')).toContainText('Resources');
 
     // Should have section headings for resource types
@@ -236,7 +236,7 @@ test.describe('Resources Page', () => {
   });
 
   test('resources page shows referenced studies', async ({ page }) => {
-    await page.goto('/resources/');
+    await page.goto('resources/');
     await expect(page.locator('text=Referenced Studies')).toBeVisible();
     await expect(page.locator('.study-list .study-link').first()).toBeVisible();
   });
@@ -244,7 +244,7 @@ test.describe('Resources Page', () => {
 
 test.describe('Persona Dashboards', () => {
   test('knowledge-worker persona renders goals and experiments', async ({ page }) => {
-    await page.goto('/personas/knowledge-worker/');
+    await page.goto('personas/knowledge-worker/');
     await expect(page.locator('h1')).toContainText('Work Better');
     // Has recommended experiments
     const cards = page.locator('.experiment-card');
@@ -257,14 +257,14 @@ test.describe('Persona Dashboards', () => {
 
   test('all three persona dashboards are accessible', async ({ page }) => {
     for (const id of ['knowledge-worker', 'student', 'team-lead']) {
-      const response = await page.goto(`/personas/${id}/`);
+      const response = await page.goto(`personas/${id}/`);
       expect(response?.status()).toBe(200);
       await expect(page.locator('h1')).toBeVisible();
     }
   });
 
   test('personas reference multiple clusters', async ({ page }) => {
-    await page.goto('/personas/knowledge-worker/');
+    await page.goto('personas/knowledge-worker/');
     const clusterLinks = page.locator('.cluster-link');
     const count = await clusterLinks.count();
     expect(count).toBeGreaterThanOrEqual(2);

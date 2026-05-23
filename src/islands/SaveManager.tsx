@@ -6,7 +6,11 @@ interface SavedItem {
   savedAt: string;
 }
 
-export default function SaveManager() {
+interface Props {
+  basePath?: string;
+}
+
+export default function SaveManager({ basePath = '' }: Props) {
   const [items, setItems] = useState<SavedItem[]>([]);
   const [available, setAvailable] = useState(true);
 
@@ -42,7 +46,7 @@ export default function SaveManager() {
           </svg>
           <h2>No saved experiments yet</h2>
           <p>Browse experiments and click the Save button to build your list.</p>
-          <a href="/experiments/" class="browse-link">Browse Experiments</a>
+          <a href={`${basePath}/experiments/`} class="browse-link">Browse Experiments</a>
         </div>
       </div>
     );
@@ -57,7 +61,7 @@ export default function SaveManager() {
       <ul class="save-list" role="list">
         {items.map((item) => (
           <li class="save-item" key={item.experimentId}>
-            <a href={`/experiments/${item.experimentId}/`} class="save-item-link">
+            <a href={`${basePath}/experiments/${item.experimentId}/`} class="save-item-link">
               {item.experimentId.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
             </a>
             <button

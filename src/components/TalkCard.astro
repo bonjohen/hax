@@ -13,10 +13,11 @@ interface Props {
 }
 
 const { slug, title, speaker, thumbnail, evidenceLevel, clusters, behaviors = [], goals = [] } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <a
-  href={`/talks/${slug}/`}
+  href={`${base}/talks/${slug}/`}
   class="talk-card"
   data-clusters={clusters.join(',')}
   data-evidence={evidenceLevel}

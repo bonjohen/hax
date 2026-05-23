@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const clusters = await getCollection('clusters');
 const experiments = await getCollection('experiments');
 const talks = await getCollection('talks');
@@ -36,7 +37,7 @@ function countForCluster(id: string) {
       {clusters.map((c) => {
         const { expCount, talkCount } = countForCluster(c.data.id);
         return (
-          <a href={`/clusters/${c.data.id}/`} class="cluster-card" style={`--cluster-color: ${clusterColors[c.data.id] || 'var(--color-link)'}`}>
+          <a href={`${base}/clusters/${c.data.id}/`} class="cluster-card" style={`--cluster-color: ${clusterColors[c.data.id] || 'var(--color-link)'}`}>
             <div class="cluster-accent" aria-hidden="true"></div>
             <div class="cluster-body">
               <h2>{c.data.name}</h2>
